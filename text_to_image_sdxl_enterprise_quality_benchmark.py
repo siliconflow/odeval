@@ -55,6 +55,12 @@ def parse_args():
         default="./output_images",
         help="The path to save generated images",
     )
+    parser.add_argument(
+    "--deep_cache",
+    type=lambda x: (str(x).lower() == 'true'),
+    default=True,
+    help="Enable or disable deep cache for image generation."
+)
 
     args = parser.parse_args()
     return args
@@ -73,20 +79,33 @@ assert os.path.isfile(
     os.path.join(args.model, "calibrate_info.txt")
 ), f"calibrate_info.txt is required in args.model ({args.model})"
 
-from onediffx.deep_cache import StableDiffusionXLPipeline
+if args.deep_cache:
+    from onediffx.deep_cache import StableDiffusionXLPipeline
+else:
+    from diffusers import StableDiffusionXLPipeline
 import onediff_quant
 from onediff_quant.utils import replace_sub_module_with_quantizable_module
 
 onediff_quant.enable_load_quantized_model()
-infer_args = {
-    "prompt": args.prompt,
-    "height": args.height,
-    "width": args.width,
-    "num_inference_steps": args.steps,
-    "cache_interval": args.cache_interval,
-    "cache_layer_id": args.cache_layer_id,
-    "cache_block_id": args.cache_block_id,
-}
+
+if args.deep_cache:
+    infer_args = {
+        "prompt": args.prompt,
+        "height": args.height,
+        "width": args.width,
+        "num_inference_steps": args.steps,
+        "cache_interval": args.cache_interval,
+        "cache_layer_id": args.cache_layer_id,
+        "cache_block_id": args.cache_block_id,
+    }
+else:
+    infer_args = {
+        "prompt": args.prompt,
+        "height": args.height,
+        "width": args.width,
+        "num_inference_steps": args.steps,
+    }
+
 calibrate_info = {}
 with open(os.path.join(args.model, "calibrate_info.txt"), "r") as f:
     for line in f.readlines():
@@ -128,9 +147,10 @@ if args.compile:
     if pipe.text_encoder_2 is not None:
         pipe.text_encoder_2 = oneflow_compile(pipe.text_encoder_2, use_graph=args.graph)
     pipe.unet = oneflow_compile(pipe.unet, use_graph=args.graph)
-    pipe.fast_unet = oneflow_compile(pipe.fast_unet, use_graph=args.graph)
-    if pipe.needs_upcasting:
-        pipe.upcast_vae()
+    if args.deep_cache:
+        pipe.fast_unet = oneflow_compile(pipe.fast_unet, use_graph=args.graph)
+        if pipe.needs_upcasting:
+            pipe.upcast_vae()
     pipe.vae.decoder = oneflow_compile(pipe.vae.decoder, use_graph=args.graph)
 
 if args.load_graph:
@@ -181,3 +201,5 @@ if args.save_graph:
     pipe.vae.decoder.save_graph("base_vae_compiled")
     end_t = time.time()
     print(f"save graphs elapsed: {end_t - start_t} s")
+
+hpsv2.evaluate(args.image_path) 
