@@ -2,8 +2,11 @@
 
 
 This repository is used for evaluating the quality of generation after compilation acceleration using [onediff](https://github.com/siliconflow/onediff).
- 
+
+### TODO
+
 ## SDXL
+
 
 bash run_sdxl_tests.sh
 
@@ -17,7 +20,7 @@ eval paintings       28.51       0.4962 (std)
 eval photo           26.91       0.4605
 eval concept-art     28.42       0.3953
 eval anime           30.50       0.3470
-eval Average         28.58 
+eval Average         **28.58** 
 
 
 int8
@@ -30,7 +33,7 @@ eval2 paintings       30.05      0.3897
 eval2 photo           28.26      0.4339
 eval2 concept-art     30.04      0.3807
 eval2 anime           31.79      0.3224
-eval2 Average         30.04 
+eval2 Average         **30.04**
 
 
 deepcache
@@ -43,7 +46,7 @@ eval3 paintings       28.45      0.3816
 eval3 photo           27.03      0.3348
 eval3 concept-art     28.56      0.3517
 eval3 anime           30.49      0.3626
-eval3 Average         28.63 
+eval3 Average         **28.63** 
 
 compile
 
@@ -56,7 +59,7 @@ eval4 paintings       30.07      0.3789
 eval4 photo           28.42      0.2491
 eval4 concept-art     30.17      0.2834
 eval4 anime           31.73      0.3485
-eval4 Average         30.10 
+eval4 Average         **30.10** 
 
 
 torch
