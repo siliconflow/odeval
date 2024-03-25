@@ -27,8 +27,11 @@ This repository is used for evaluating the quality of generation after compilati
     export HPS_ROOT=/your/cache/path
     ```
  
+## Models
+
 ### SDXL
 Run:
+
     ```
     bash run_sdxl_tests.sh
     ```
