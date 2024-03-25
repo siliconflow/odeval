@@ -36,7 +36,8 @@ Run:
     bash run_sdxl_tests.sh
     ```
 
-Results:
+
+HPSv2 comparison results:
 
 | Optimization Technique | Paintings Score | Photo Score | Concept-Art Score | Anime Score | Average Score | Inference Time for 30 Steps, 1024*1024 |
 |------------------------|-----------------|-------------|-------------------|-------------|---------------|--------------------------------|
