@@ -29,9 +29,9 @@ This repository is used for evaluating the quality of generation after compilati
  
 ### SDXL
 Run:
-```
-bash run_sdxl_tests.sh
-```
+    ```
+    bash run_sdxl_tests.sh
+    ```
 
 Results:
 
