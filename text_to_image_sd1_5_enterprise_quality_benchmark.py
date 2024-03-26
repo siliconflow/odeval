@@ -17,12 +17,10 @@ def parse_args():
     parser.add_argument("--save_graph", action="store_true")
     parser.add_argument("--load_graph", action="store_true")
     parser.add_argument(
-        "--prompt",
-        type=str,
-        default="photo of a rhino dressed suit and tie sitting at a table in a bar with a bar stools, award winning photography, Elke vogelsang",
+        "--prompt", type=str, default="a photo of an astronaut riding a horse on mars",
     )
-    parser.add_argument("--height", type=int, default=1024)
-    parser.add_argument("--width", type=int, default=1024)
+    parser.add_argument("--height", type=int, default=512)
+    parser.add_argument("--width", type=int, default=512)
     parser.add_argument("--steps", type=int, default=30)
     parser.add_argument("--bits", type=int, default=8)
     parser.add_argument(
@@ -46,9 +44,6 @@ def parse_args():
     )
     parser.add_argument("--seed", type=int, default=1)
     parser.add_argument("--warmup", type=int, default=1)
-    parser.add_argument("--cache_interval", type=int, default=3)
-    parser.add_argument("--cache_layer_id", type=int, default=0)
-    parser.add_argument("--cache_block_id", type=int, default=0)
     parser.add_argument(
         "--image_path",
         type=str,
@@ -58,7 +53,7 @@ def parse_args():
     parser.add_argument(
         "--deep_cache",
         type=lambda x: (str(x).lower() == "true"),
-        default=True,
+        default=False,
         help="Enable or disable deep cache for image generation.",
     )
 
@@ -80,9 +75,9 @@ assert os.path.isfile(
 ), f"calibrate_info.txt is required in args.model ({args.model})"
 
 if args.deep_cache:
-    from onediffx.deep_cache import StableDiffusionXLPipeline
+    from onediffx.deep_cache import StableDiffusionPipeline
 else:
-    from diffusers import StableDiffusionXLPipeline
+    from diffusers import StableDiffusionPipeline
 import onediff_quant
 from onediff_quant.utils import replace_sub_module_with_quantizable_module
 
@@ -94,9 +89,9 @@ if args.deep_cache:
         "height": args.height,
         "width": args.width,
         "num_inference_steps": args.steps,
-        "cache_interval": args.cache_interval,
-        "cache_layer_id": args.cache_layer_id,
-        "cache_block_id": args.cache_block_id,
+        "cache_interval": 2,
+        "cache_layer_id": 0,
+        "cache_block_id": 0,
     }
 else:
     infer_args = {
@@ -121,14 +116,17 @@ with open(os.path.join(args.model, "calibrate_info.txt"), "r") as f:
 os.environ["ONEFLOW_RUN_GRAPH_BY_VM"] = "1"
 
 scheduler = EulerDiscreteScheduler.from_pretrained(args.model, subfolder="scheduler")
-pipe = StableDiffusionXLPipeline.from_pretrained(
+pipe = StableDiffusionPipeline.from_pretrained(
     args.model,
     scheduler=scheduler,
-    torch_dtype=torch.float16,
-    use_safetensors=True,
+    use_auth_token=True,
+    revision="fp16",
     variant="fp16",
+    torch_dtype=torch.float16,
+    safety_checker=None,
 )
 pipe.to("cuda")
+
 
 for sub_module_name, sub_calibrate_info in calibrate_info.items():
     replace_sub_module_with_quantizable_module(
@@ -138,26 +136,20 @@ for sub_module_name, sub_calibrate_info in calibrate_info.items():
 if args.compile_text_encoder:
     if pipe.text_encoder is not None:
         pipe.text_encoder = oneflow_compile(pipe.text_encoder, use_graph=args.graph)
-    if pipe.text_encoder_2 is not None:
-        pipe.text_encoder_2 = oneflow_compile(pipe.text_encoder_2, use_graph=args.graph)
 
 if args.compile:
-    if pipe.text_encoder is not None:
-        pipe.text_encoder = oneflow_compile(pipe.text_encoder, use_graph=args.graph)
-    if pipe.text_encoder_2 is not None:
-        pipe.text_encoder_2 = oneflow_compile(pipe.text_encoder_2, use_graph=args.graph)
-    pipe.unet = oneflow_compile(pipe.unet, use_graph=args.graph)
     if args.deep_cache:
-        pipe.fast_unet = oneflow_compile(pipe.fast_unet, use_graph=args.graph)
-        if pipe.needs_upcasting:
-            pipe.upcast_vae()
-    pipe.vae.decoder = oneflow_compile(pipe.vae.decoder, use_graph=args.graph)
+        pipe.unet = oneflow_compile(pipe.unet, use_graph=args.graph)
+        pipe.fast_unet = oneflow_compile(pipe.fast_unet)
+        pipe.vae.decoder = oneflow_compile(pipe.vae.decoder, use_graph=args.graph)
+    else:
+        pipe.unet = oneflow_compile(pipe.unet, use_graph=args.graph)
+        pipe.vae.decoder = oneflow_compile(pipe.vae.decoder, use_graph=args.graph)
 
 if args.load_graph:
     print("Loading graphs to avoid compilation...")
     start_t = time.time()
     pipe.unet.load_graph("base_unet_compiled", run_warmup=True)
-    pipe.fast_unet.load_graph("base_fast_unet_compiled", run_warmup=True)
     pipe.vae.decoder.load_graph("base_vae_compiled", run_warmup=True)
     end_t = time.time()
     print(f"warmup with loading graph elapsed: {end_t - start_t} s")
@@ -197,7 +189,6 @@ if args.save_graph:
     print("Saving graphs...")
     start_t = time.time()
     pipe.unet.save_graph("base_unet_compiled")
-    pipe.fast_unet.save_graph("base_fast_unet_compiled")
     pipe.vae.decoder.save_graph("base_vae_compiled")
     end_t = time.time()
     print(f"save graphs elapsed: {end_t - start_t} s")
