@@ -47,7 +47,14 @@ HPSv2 comparison results:
 | OneDiff Compile (CE)                | 30.07 ± 0.3789  | 28.42 ± 0.2491 | 30.17 ± 0.2834  | 31.73 ± 0.3485 | 30.10         | 2h 30min 43s                       |
 | Pytorch                  | 30.07 ± 0.3887  | 28.43 ± 0.2726 | 30.16 ± 0.2686  | 31.74 ± 0.3691 | 30.10         | 3h 42min 15s                      |
 
+### SD 1.5
+Run:
 
+    ```
+    bash run_sd1_5_tests.sh
+    ```
+
+todo
 
 ### References
 

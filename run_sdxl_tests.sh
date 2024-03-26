@@ -3,7 +3,7 @@
 # For CN
 export HF_ENDPOINT="https://hf-mirror.com"
 
-MODEL_PATH=$(python3 -c "from huggingface_hub import snapshot_download; repo_id='siliconflow/stable-video-diffusion-img2vid-xt-deepcache-int8'; deepcache_int8_folder = snapshot_download(repo_id=repo_id); print(deepcache_int8_folder)")
+MODEL_PATH=$(python3 -c "from huggingface_hub import snapshot_download; repo_id='siliconflow/sdxl-base-1.0-onediff-enterprise-v2'; int8_folder = snapshot_download(repo_id=repo_id); print(int8_folder)")
 
 OUTPUT_DIR="your path"
 
