@@ -45,7 +45,6 @@ else:
     from onediff.infer_compiler import oneflow_compile
     from diffusers import StableDiffusionPipeline
 
-# SDXL base: StableDiffusionXLPipeline
 scheduler = EulerDiscreteScheduler.from_pretrained(args.base, subfolder="scheduler")
 base = StableDiffusionPipeline.from_pretrained(
     args.base,

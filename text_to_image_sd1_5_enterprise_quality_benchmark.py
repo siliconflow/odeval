@@ -185,8 +185,6 @@ torch.cuda.cudart().cudaProfilerStop()
 end_t = time.time()
 print(f"e2e ({args.steps} steps) elapsed: {end_t - start_t} s")
 
-image.save(args.saved_image)
-
 if args.save_graph:
     print("Saving graphs...")
     start_t = time.time()
