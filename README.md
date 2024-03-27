@@ -1,5 +1,6 @@
 # OneDiffGenMetrics
 
+<p align="center"><img src="imgs/onediff_logo.png"/ width="100%"><br></p>
 
 This repository is used for evaluating the quality of generation after compilation acceleration using [OneDiff](https://github.com/siliconflow/onediff).
 
@@ -27,7 +28,9 @@ This repository is used for evaluating the quality of generation after compilati
     export HPS_ROOT=/your/cache/path
     ```
 [HPSv2](https://github.com/tgxs002/HPSv2) is a scoring model that can more accurately predict human preferences on text-generated images.
- 
+
+<p align="center"><img src="imgs/overview.png"/ width="70%"><br></p>
+
 ## Models
 
 ### SDXL
