@@ -26,6 +26,7 @@ This repository is used for evaluating the quality of generation after compilati
     # default: ~/.cache/hpsv2/
     export HPS_ROOT=/your/cache/path
     ```
+[HPSv2](https://github.com/tgxs002/HPSv2) is a scoring model that can more accurately predict human preferences on text-generated images.
  
 ## Models
 
@@ -35,7 +36,6 @@ Run:
     ```
     bash run_sdxl_tests.sh
     ```
-
 
 HPSv2 comparison results:
 
