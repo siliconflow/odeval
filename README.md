@@ -11,7 +11,7 @@ This repository is used for evaluating the quality of generation after compilati
 - [Community Edition (CE)](https://github.com/siliconflow/onediff/tree/main?tab=readme-ov-file#installation)
 - [Enterprise Edition (EE)](https://github.com/siliconflow/onediff/blob/main/README_ENTERPRISE.md#diffusers-with-onediff-enterprise)
 
-2. **Benchmark environment.**
+2. **Prepare Benchmark environment.**
 
     ```
     # Method 1: Pypi download and install
