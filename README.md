@@ -1,8 +1,6 @@
 # OneDiffGenMetrics
 
-<p align="center">
-<img src="imgs/onediff_logo.png" height="100">
-</p>
+<p align="center"><img src="imgs/onediff_logo.png"/ width="100%"><br></p>
 
 This repository is used for evaluating the quality of generation after compilation acceleration using [OneDiff](https://github.com/siliconflow/onediff).
 
@@ -63,9 +61,9 @@ HPSv2 comparison results:
 
 | Optimization Technique      | Paintings Score | Photo Score | Concept-Art Score | Anime Score | Average Score | Inference Time for 30 Steps, 512*512 (h:min:s) |
 |-------------------------|-----------------|-------------|-------------------|-------------|---------------|-------------------------|
-| OneDiff Quant + DeepCache (EE) | 16.96 ± 0.2835  | 17.95 ± 0.6152 | 16.84 ± 0.2692  | 19.06 ± 0.2024 | 17.70         | 0:15:55                |
+| OneDiff Quant + DeepCache (EE) | 24.11 ± 0.2549  | 25.10 ± 0.5905 | 24.07 ± 0.3959  | 25.45 ± 0.2102 | 24.68         | 0:14:01                |
 | OneDiff Quant (EE)           | 24.68 ± 0.2271  | 25.54 ± 0.5553 | 24.73 ± 0.3563  | 26.02 ± 0.4202 | 25.24         | 0:23:51                |
-| DeepCache (CE)               | 24.26 ± 0.4262  | 25.51 ± 0.4477 | 24.41 ± 0.4630  | 25.97 ± 0.3386 | 25.04         | 0:16:51               |
+| DeepCache (CE)               | 23.88 ± 0.4237  | 25.23 ± 0.4587 | 23.96 ± 0.4445  | 25.51 ± 0.2846 | 24.65         | 0:15:01               |
 | OneDiff Compile (CE)         | 24.58 ± 0.3372  | 25.83 ± 0.3850 | 24.71 ± 0.4705  | 26.25 ± 0.2840 | 25.34         | 0:27:27                |
 | Pytorch                      | 24.55 ± 0.3336  | 25.78 ± 0.3986 | 24.70 ± 0.4624  | 26.24 ± 0.2989 | 25.32         | 0:51:25                |
 
