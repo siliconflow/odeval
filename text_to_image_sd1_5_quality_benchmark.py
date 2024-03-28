@@ -38,11 +38,10 @@ args = parser.parse_args()
 
 OUTPUT_TYPE = "pil"
 
+from onediff.infer_compiler import oneflow_compile
 if args.deep_cache:
-    from onediffx import compile_pipe
     from onediffx.deep_cache import StableDiffusionPipeline
 else:
-    from onediff.infer_compiler import oneflow_compile
     from diffusers import StableDiffusionPipeline
 
 scheduler = EulerDiscreteScheduler.from_pretrained(args.base, subfolder="scheduler")
@@ -59,7 +58,9 @@ base.to("cuda")
 if args.compile:
     print("Compiling unet with oneflow.")
     if args.deep_cache:
-        base = compile_pipe(base)
+        base.unet = oneflow_compile(base.unet)
+        base.fast_unet = oneflow_compile(base.fast_unet)
+        base.vae.decoder = oneflow_compile(base.vae.decoder)
     else:
         base.unet = oneflow_compile(base.unet)
         base.vae.decoder = oneflow_compile(base.vae.decoder)
@@ -72,7 +73,7 @@ if args.deep_cache:
         height=args.height,
         width=args.width,
         num_inference_steps=args.n_steps,
-        cache_interval=2,
+        cache_interval=3,
         cache_layer_id=0,
         cache_block_id=0,
     ).images
@@ -100,7 +101,7 @@ for style, prompts in all_prompts.items():
                 height=args.height,
                 width=args.width,
                 num_inference_steps=args.n_steps,
-                cache_interval=2,
+                cache_interval=3,
                 cache_layer_id=0,
                 cache_block_id=0,
             ).images[0]
