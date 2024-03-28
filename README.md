@@ -1,6 +1,8 @@
 # OneDiffGenMetrics
 
-<p align="center"><img src="imgs/onediff_logo.png"/ width="100%"><br></p>
+<p align="center">
+<img src="imgs/onediff_logo.png" height="100">
+</p>
 
 This repository is used for evaluating the quality of generation after compilation acceleration using [OneDiff](https://github.com/siliconflow/onediff).
 
