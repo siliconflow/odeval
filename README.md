@@ -44,6 +44,7 @@ Run:
 
 HPSv2 comparison results:
 
+
 | Optimization Technique | Paintings Score | Photo Score | Concept-Art Score | Anime Score | Average Score | Inference Time for 30 Steps, 1024*1024 (h:min:s) |
 |------------------------|-----------------|-------------|-------------------|-------------|---------------|--------------------------------|
 | OneDiff Quant + DeepCache (EE)     | 28.51 ± 0.4962  | 26.91 ± 0.4605 | 28.42 ± 0.3953  | 30.50 ± 0.3470 | 28.58         | 0:50:57                        |
@@ -51,6 +52,9 @@ HPSv2 comparison results:
 | DeepCache (CE)              | 28.45 ± 0.3816  | 27.03 ± 0.3348 | 28.56 ± 0.3517  | 30.49 ± 0.3626 | 28.63         | 1:0:34                    |
 | OneDiff Compile (CE)                | 30.07 ± 0.3789  | 28.42 ± 0.2491 | 30.17 ± 0.2834  | 31.73 ± 0.3485 | 30.10         | 2:30:43                       |
 | Pytorch                  | 30.07 ± 0.3887  | 28.43 ± 0.2726 | 30.16 ± 0.2686  | 31.74 ± 0.3691 | 30.10         | 3:42:15                      |
+
+> [!NOTE]
+Scores for four styles ("Animation", "Concept-art", "Painting", and "Photo") and the average score are provided. Higher scores indicate better image quality.
 
 ### SD 1.5
 Run:
