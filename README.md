@@ -55,6 +55,7 @@ HPSv2 comparison results:
 
 > [!NOTE]
 Scores for four styles ("Animation", "Concept-art", "Painting", and "Photo") and the average score are provided. Higher scores indicate better image quality.
+Inference Time testing is conducted across the entire benchmark dataset.
 
 ### SD 1.5
 Run:
