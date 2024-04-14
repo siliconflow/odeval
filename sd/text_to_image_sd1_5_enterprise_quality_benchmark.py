@@ -51,6 +51,12 @@ def parse_args():
         help="The path to save generated images",
     )
     parser.add_argument(
+        "--prompt_path",
+        type=str,
+        default="./prompts",
+        help="The path to save generated images",
+    )
+    parser.add_argument(
         "--deep_cache",
         type=lambda x: (str(x).lower() == "true"),
         default=False,
@@ -65,6 +71,7 @@ args = parse_args()
 
 # Load HPSv2 benchmark prompts
 all_prompts = hpsv2.benchmark_prompts("all")
+MAX_PROMPT_LENGTH = 300
 
 # Ensure the output directories exist
 for style in all_prompts.keys():
@@ -135,16 +142,16 @@ for sub_module_name, sub_calibrate_info in calibrate_info.items():
 
 if args.compile_text_encoder:
     if pipe.text_encoder is not None:
-        pipe.text_encoder = oneflow_compile(pipe.text_encoder, use_graph=args.graph)
+        pipe.text_encoder = oneflow_compile(pipe.text_encoder)
 
 if args.compile:
     if args.deep_cache:
-        pipe.unet = oneflow_compile(pipe.unet, use_graph=args.graph)
-        pipe.fast_unet = oneflow_compile(pipe.fast_unet, use_graph=args.graph)
-        pipe.vae.decoder = oneflow_compile(pipe.vae.decoder, use_graph=args.graph)
+        pipe.unet = oneflow_compile(pipe.unet)
+        pipe.fast_unet = oneflow_compile(pipe.fast_unet)
+        pipe.vae.decoder = oneflow_compile(pipe.vae.decoder)
     else:
-        pipe.unet = oneflow_compile(pipe.unet, use_graph=args.graph)
-        pipe.vae.decoder = oneflow_compile(pipe.vae.decoder, use_graph=args.graph)
+        pipe.unet = oneflow_compile(pipe.unet)
+        pipe.vae.decoder = oneflow_compile(pipe.vae.decoder)
 
 if args.load_graph:
     print("Loading graphs to avoid compilation...")
@@ -178,8 +185,14 @@ for style, prompts in all_prompts.items():
         image = pipe(**infer_args).images[0]
 
         directory_path = os.path.join(args.image_path, style)
+        prompt_path = os.path.join(args.prompt_path, style)
         os.makedirs(directory_path, exist_ok=True)
+        os.makedirs(prompt_path, exist_ok=True)
         image.save(os.path.join(directory_path, f"{idx:05d}.jpg"))
+        text_file_path = os.path.join(prompt_path, f"{idx:05d}.txt")
+        prompt_to_save = prompt[:MAX_PROMPT_LENGTH]
+        with open(text_file_path, 'w') as text_file:
+            text_file.write(prompt_to_save)
 torch.cuda.cudart().cudaProfilerStop()
 
 end_t = time.time()

@@ -28,6 +28,12 @@ parser.add_argument(
     help="The path to save generated images",
 )
 parser.add_argument(
+    "--prompt_path",
+    type=str,
+    default="./prompts",
+    help="The path to save generated images",
+)
+parser.add_argument(
     "--deep_cache",
     type=lambda x: (str(x).lower() == "true"),
     default=True,
@@ -113,8 +119,13 @@ for style, prompts in all_prompts.items():
                 num_inference_steps=args.n_steps,
             ).images[0]
         directory_path = os.path.join(args.image_path, style)
+        prompt_path = os.path.join(args.prompt_path, style)
         os.makedirs(directory_path, exist_ok=True)
+        os.makedirs(prompt_path, exist_ok=True)
         image.save(os.path.join(directory_path, f"{idx:05d}.jpg"))
+        text_file_path = os.path.join(prompt_path, f"{idx:05d}.txt")
+        with open(text_file_path, 'w') as text_file:
+            text_file.write(prompt)
 
 torch.cuda.cudart().cudaProfilerStop()
 end_t = time.time()
