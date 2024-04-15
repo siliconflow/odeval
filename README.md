@@ -52,11 +52,11 @@ Run:
 
 | Optimization Technique | Paintings  | Photo | Concept-Art  | Anime | Average Score |
 |:------------------------|:-----------------|:-------------|:-------------------|:-------------|:---------------|
-| OneDiff Quant + OneDiff DeepCache (EE)     | 28.51 ± 0.4962  | 26.91 ± 0.4605 | 28.42 ± 0.3953  | 30.50 ± 0.3470 | 28.58         | 
-| OneDiff Quant (EE)                    | 30.05 ± 0.3897  | 28.26 ± 0.4339 | 30.04 ± 0.3807  | 31.79 ± 0.3224 | 30.04         | 
-| OneDiff DeepCache (CE)              | 28.45 ± 0.3816  | 27.03 ± 0.3348 | 28.56 ± 0.3517  | 30.49 ± 0.3626 | 28.63         | 
-| OneDiff Compile (CE)                | 30.07 ± 0.3789  | 28.42 ± 0.2491 | 30.17 ± 0.2834  | 31.73 ± 0.3485 | 30.10         | 
-| Pytorch                  | 30.07 ± 0.3887  | 28.43 ± 0.2726 | 30.16 ± 0.2686  | 31.74 ± 0.3691 | 30.10         | 
+| OneDiff Quant + OneDiff DeepCache (EE) | 28.51 ± 0.4962  | 26.91 ± 0.4605 | 28.42 ± 0.3953  | 30.50 ± 0.3470 | 28.58 | 
+| OneDiff Quant (EE)  | 30.05 ± 0.3897  | 28.26 ± 0.4339 | 30.04 ± 0.3807  | 31.79 ± 0.3224 | 30.04 | 
+| OneDiff DeepCache (CE) | 28.45 ± 0.3816  | 27.03 ± 0.3348 | 28.56 ± 0.3517  | 30.49 ± 0.3626 | 28.63 | 
+| OneDiff Compile (CE) | 30.07 ± 0.3789  | 28.42 ± 0.2491 | 30.17 ± 0.2834  | 31.73 ± 0.3485 | 30.10 | 
+| Pytorch | 30.07 ± 0.3887  | 28.43 ± 0.2726 | 30.16 ± 0.2686  | 31.74 ± 0.3691 | 30.10 | 
 
 
 > [!NOTE]
@@ -65,17 +65,17 @@ Scores for four styles ("Animation", "Concept-art", "Painting", and "Photo") and
 
 **CLIP Score comparison results:**
 
-| Optimization Technique               | Paintings | Photo | Concept-Art| Anime | Average Score |
+| Optimization Technique | Paintings | Photo | Concept-Art| Anime | Average Score |
 |--------------------------------------|-----------------|-------------|-------------------|-------------|---------------|
-| OneDiff Quant + OneDiff DeepCache (EE)       | 35.46           | 34.44       | 35.24             | 31.85       | 34.25         |
-| OneDiff Quant (EE)                   | 35.88           | 34.74       | 35.53             | 31.80       | 34.49         |
-| OneDiff DeepCache (CE)                       | 35.42           | 34.47       | 35.15             | 31.83       | 34.22         |
-| OneDiff Compile (CE)                 | 35.78           | 34.83       | 35.43             | 31.77       | 34.45         |
-| Pytorch                              | 35.78           | 34.83       | 35.42             | 31.77       | 34.45         |
+| OneDiff Quant + OneDiff DeepCache (EE) | 35.46 | 34.44 | 35.24 | 31.85 | 34.25 |
+| OneDiff Quant (EE) | 35.88 | 34.74 | 35.53 | 31.80 | 34.49 |
+| OneDiff DeepCache (CE) | 35.42 | 34.47 | 35.15 | 31.83 | 34.22 |
+| OneDiff Compile (CE) | 35.78 | 34.83 | 35.43 | 31.77 | 34.45 |
+| Pytorch | 35.78 | 34.83 | 35.42 | 31.77 | 34.45 |
 
 **Average Aesthetic Score and Inception Score:**
 
-| Optimization Technique                | Average Aesthetic Score | Average Inception Score      |
+| Optimization Technique | Average Aesthetic Score | Average Inception Score |
 |---------------------------------------|-------------------------|------------------------------|
 | OneDiff Quant + OneDiff DeepCache (EE) | 5.93                    | 16.43 ± 3.75                 |
 | OneDiff Quant (EE)                    | 5.97                    | 16.02 ± 4.60                 |
