@@ -42,7 +42,7 @@ Run:
     bash run_sdxl_tests.sh
     ```
 
-HPSv2 comparison results:
+**HPSv2 comparison results:**
 
 
 | Optimization Technique | Paintings Score | Photo Score | Concept-Art Score | Anime Score | Average Score | Inference Time for 30 Steps, 1024*1024 (h:min:s) |
@@ -54,29 +54,35 @@ HPSv2 comparison results:
 | Pytorch                  | 30.07 ± 0.3887  | 28.43 ± 0.2726 | 30.16 ± 0.2686  | 31.74 ± 0.3691 | 30.10         | 3:42:15                      |
 
 
-Calculating CLIP Score:
-| Optimization Technique | Paintings Score | Photo Score | Concept-Art Score | Anime Score | Average Score | Inference Time for 30 Steps, 1024*1024 (h:min:s) |
-|------------------------|-----------------|-------------|-------------------|-------------|---------------|--------------------------------|
-| OneDiff Quant + DeepCache (EE)     | 35.45634841918945  | 34.442588806152344 | 35.23531723022461 | 31.84648895263672 | 28.58         | 0:50:57                        |
-| OneDiff Quant (EE)                    | 35.8808479309082  | 34.73968505859375 | 35.52915954589844  | 31.801517486572266 | 30.04         | 1:57:48                     |
-| DeepCache (CE)              | 35.416053771972656  | 34.47349166870117 | 35.14967727661133  | 31.832393646240234 | 28.63         | 1:0:34                    |
-| OneDiff Compile (CE)                | 35.775978088378906  | 34.8296623229980 | 35.43376922607422 | 31.768224716186523 | 30.10         | 2:30:43                       |
-| Pytorch                  | 35.7795562744140  | 34.8265266418457 | 35.424835205078125  | 31.77286720275879 | 30.10         | 3:42:15                      |
+**Calculating CLIP Score:**
 
+| Optimization Technique               | Paintings Score | Photo Score | Concept-Art Score | Anime Score | Average Score |
+|--------------------------------------|-----------------|-------------|-------------------|-------------|---------------|
+| OneDiff Quant + DeepCache (EE)       | 35.46           | 34.44       | 35.24             | 31.85       | 34.25         |
+| OneDiff Quant (EE)                   | 35.88           | 34.74       | 35.53             | 31.80       | 34.49         |
+| DeepCache (CE)                       | 35.42           | 34.47       | 35.15             | 31.83       | 34.22         |
+| OneDiff Compile (CE)                 | 35.78           | 34.83       | 35.43             | 31.77       | 34.45         |
+| Pytorch                              | 35.78           | 34.83       | 35.42             | 31.77       | 34.45         |
 
+**Average Aesthetic Score:**
 
-Average aesthetic score for all images: 5.928362923562527
-Average aesthetic score for all images: 5.974049439430237
-Average aesthetic score for all images: 5.91144324779510
-Average aesthetic score for all images: 5.969082910120488
-Average aesthetic score for all images: 5.971234182715416
+| Optimization Technique  | Average Aesthetic Score |
+|-----|-------------------------|
+| OneDiff Quant + DeepCache (EE)   | 5.93                    |
+| OneDiff Quant (EE)   | 5.97                    |
+| DeepCache (CE)   | 5.91                    |
+| OneDiff Compile (CE)   | 5.97                    |
+| Pytorch   | 5.97                    |
 
+**Average Inception Score:**
 
-(16.432745481557347, 3.7464321723009113)
-(16.02010587107501, 4.604344672464527)
-(15.819354797830417, 3.802340177497511)
-(15.87585141502027, 4.429504298365484)
-(15.795889694044481, 4.240929938436406)
+| Optimization Technique  | Average Inception Score |
+|-------|------------------|
+| OneDiff Quant + DeepCache (EE)     | 16.43 ± 3.75     |
+| OneDiff Quant (EE)     | 16.02 ± 4.60     |
+| DeepCache (CE)     | 15.82 ± 3.80     |
+| OneDiff Compile (CE)     | 15.88 ± 4.43     |
+| Pytorch     | 15.80 ± 4.24     |
 
 
 
@@ -91,7 +97,7 @@ Run:
     bash run_sd1_5_tests.sh
     ```
 
-HPSv2 comparison results:
+**HPSv2 comparison results:**
 
 | Optimization Technique      | Paintings Score | Photo Score | Concept-Art Score | Anime Score | Average Score | Inference Time for 30 Steps, 512*512 (h:min:s) |
 |-------------------------|-----------------|-------------|-------------------|-------------|---------------|-------------------------|
@@ -101,25 +107,37 @@ HPSv2 comparison results:
 | OneDiff Compile (CE)         | 24.58 ± 0.3372  | 25.83 ± 0.3850 | 24.71 ± 0.4705  | 26.25 ± 0.2840 | 25.34         | 0:27:27                |
 | Pytorch                      | 24.55 ± 0.3336  | 25.78 ± 0.3986 | 24.70 ± 0.4624  | 26.24 ± 0.2989 | 25.32         | 0:51:25                |
 
-| Optimization Technique      | Paintings Score | Photo Score | Concept-Art Score | Anime Score | Average Score | Inference Time for 30 Steps, 512*512 (h:min:s) |
-|-------------------------|-----------------|-------------|-------------------|-------------|---------------|-------------------------|
-| OneDiff Quant + DeepCache (EE) | 33.549373626708984  | 32.72171401977539 | 33.56893539428711  | 30.86512565612793 | 24.68         | 0:14:01                |
-| OneDiff Quant (EE)           | 33.64154052734375  | 32.839080810546875 |  33.72417068481445 | 30.787025451660156 | 25.24         | 0:23:51                |
-| DeepCache (CE)               | 33.61925506591797 | 32.78925323486328| 33.47829818725586 | 30.957332611083984 | 24.65         | 0:15:01               |
-| OneDiff Compile (CE)         | 33.7487869262695  | 33.00041580200195 | 33.62976837158203  | 30.908231735229492 | 25.34         | 0:27:27                |
-| Pytorch                      | 33.764949798583984  | 32.97639465332031 | 33.62176513671875 |30.956588745117188 | 25.32         | 0:51:25                |
+**Calculating CLIP Score:**
 
-r all images: 5.427187633961439
-ore for all images: 5.458056560158729
-Average aesthetic score for all images: 5.423031551316381
-Average aesthetic score for all images: 5.464233786761761
-Average aesthetic score for all images: 5.464687652438879
+| Optimization Technique               | Paintings Score | Photo Score | Concept-Art Score | Anime Score | Average Score |
+|--------------------------------------|-----------------|-------------|-------------------|-------------|---------------|
+| OneDiff Quant + DeepCache (EE)       | 33.55           | 32.72       | 33.57             | 30.87       | 32.68         |
+| OneDiff Quant (EE)                   | 33.64           | 32.84       | 33.72             | 30.79       | 32.75         |
+| DeepCache (CE)                       | 33.62           | 32.79       | 33.48             | 30.96       | 32.71         |
+| OneDiff Compile (CE)                 | 33.75           | 33.00       | 33.63             | 30.91       | 32.82         |
+| Pytorch                              | 33.76           | 32.98       | 33.62             | 30.96       | 32.83         |
 
-(14.708145360622566, 3.7015709571751056)
-(15.047029879537984, 4.310061138159499)
-(15.302314761365043, 4.591594308119612)
-(15.203076023748048, 4.074212125431419)
-(15.253643227273168, 4.488194564065999)
+
+**Average Aesthetic Score:**
+
+| Optimization Technique              | Average Aesthetic Score |
+|-------------------------------------|-------------------------|
+| OneDiff Quant + DeepCache (EE)      | 5.43                    |
+| OneDiff Quant (EE)                  | 5.46                    |
+| DeepCache (CE)                      | 5.42                    |
+| OneDiff Compile (CE)                | 5.46                    |
+| Pytorch                             | 5.46                    |
+
+**Average Inception Score:**
+
+| Optimization Technique              | Average Inception Score |
+|-------------------------------------|-------------------------|
+| OneDiff Quant + DeepCache (EE)      | 14.71 ± 3.70            |
+| OneDiff Quant (EE)                  | 15.05 ± 4.31            |
+| DeepCache (CE)                      | 15.30 ± 4.59            |
+| OneDiff Compile (CE)                | 15.20 ± 4.07            |
+| Pytorch                             | 15.25 ± 4.49            |
+
 
 
 
@@ -131,37 +149,44 @@ Run:
     bash run_svd_tests.sh
     ```
 
-HPSv2 comparison results:
+**HPSv2 comparison results:**
 
-| Optimization Technique      | Paintings Score | Photo Score | Concept-Art Score | Anime Score | Average Score | Inference Time for 30 Steps, 512*512 (h:min:s) |
-|-------------------------|-----------------|-------------|-------------------|-------------|---------------|-------------------------|
-| OneDiff Quant + DeepCache (EE) | 24.72 ± 0.0327 | 22.81 ± 0.0881 | 25.25 ± 0.0405 | 25.19 ± 0.8912 | 24.62        | 26917.555s                |
-| DeepCache (CE)           | 24.72 ± 0.1604 | 22.77 ± 0.0308 | 25.15 ± 0.2523 | 25.00 ± 1.0273 | 24.62         | 25739.851s                |
-| OneDiff Compile (CE)         | 25.84 ± 0.0566 | 24.54 ± 0.1882 | 26.43 ± 0.0194 | 26.79 ± 0.5265 | 25.96        | 28402.692s                |
-| Pytorch                      | 25.82 ± 0.1076 | 24.28 ± 0.1298 | 26.48 ± 0.0792 | 26.82 ± 0.5806 | 25.96         | 35609.394s                |
-
-
-
-| Optimization Technique      | Paintings Score | Photo Score | Concept-Art Score | Anime Score | Average Score | Inference Time for 30 Steps, 512*512 (h:min:s) |
-|-------------------------|-----------------|-------------|-------------------|-------------|---------------|-------------------------|
-| OneDiff Quant + DeepCache (EE) | 31.822914123535156  | 30.53727912902832 | 30.825557708740234 | 29.38327980041504 | 24.68         | 0:14:01                |
-| DeepCache (CE)           | 31.75057601928711  |30.51968765258789 | 30.68446159362793 | 29.423095703125 | 25.24         | 0:23:51                |
-| OneDiff Compile (CE)         | 32.57094955444336  | 31.377920150756836 | 31.65696144104004  | 30.022836685180664 | 25.34         | 0:27:27                |
-| Pytorch                      | 32.426265716552734  | 31.23940658569336 |  31.80515480041504 | 29.919218063354492 | 25.32         | 0:51:25                |
-
-python -m clip_score /home/lixiang/OneDiffGenMetrics/test/anime prompts/anime
+| Optimization Technique      | Paintings Score | Photo Score | Concept-Art Score | Anime Score | Average Score | Inference Time (h:min:s) |
+|-----------------------------|-----------------|-------------|-------------------|-------------|---------------|-------------------------|
+| OneDiff Quant + DeepCache (EE) | 24.72 ± 0.0327 | 22.81 ± 0.0881 | 25.25 ± 0.0405 | 25.19 ± 0.8912 | 24.49        | 7:28:37                |
+| DeepCache (CE)               | 24.72 ± 0.1604 | 22.77 ± 0.0308 | 25.15 ± 0.2523 | 25.00 ± 1.0273 | 24.41         | 7:08:59                |
+| OneDiff Compile (CE)         | 25.84 ± 0.0566 | 24.54 ± 0.1882 | 26.43 ± 0.0194 | 26.79 ± 0.5265 | 25.90        | 7:53:22                |
+| Pytorch                      | 25.82 ± 0.1076 | 24.28 ± 0.1298 | 26.48 ± 0.0792 | 26.82 ± 0.5806 | 25.85         | 9:53:29                |
 
 
-Average aesthetic score for all images: 5.3130029165744785
-verage aesthetic score for all images: 5.324187580347061
-Average aesthetic score for all images: 5.476414643526077
-Average aesthetic score for all images: 5.495331493616104
+**Calculating CLIP Score:**
+
+| Optimization Technique           | Paintings Score | Photo Score | Concept-Art Score | Anime Score | Average Score |
+|----------------------------------|-----------------|-------------|-------------------|-------------|---------------|
+| OneDiff Quant + DeepCache (EE)   | 31.82           | 30.54       | 30.83             | 29.38       | 30.64         |
+| DeepCache (CE)                   | 31.75           | 30.52       | 30.68             | 29.42       | 30.59         |
+| OneDiff Compile (CE)             | 32.57           | 31.38       | 31.66             | 30.02       | 31.41         |
+| Pytorch                          | 32.43           | 31.24       | 31.81             | 29.92       | 31.35         |
 
 
-(7.862378483094004, 2.2547635068701037)
-(7.633055066268389, 2.1945581418387143)
-(8.18279247932499, 2.328945827026442)
-(7.878105649778755, 1.9717273821302463)
+**Average Aesthetic Score:**
+
+| Optimization Technique      | Average Aesthetic Score |
+|-----------------------------|-------------------------|
+| OneDiff Quant + DeepCache (EE)                 | 5.31                    |
+| DeepCache (CE)                  | 5.32                    |
+| OneDiff Compile (CE)                | 5.48                    |
+| Pytorch                 | 5.50                    |
+
+**Average Inception Score:**
+
+| Optimization Technique      | Average Inception Score    |
+|-----------------------------|----------------------------|
+| OneDiff Quant + DeepCache (EE)                 | 7.86 ± 2.25                |
+| DeepCache (CE)               | 7.63 ± 2.19                |
+| OneDiff Compile (CE)                  | 8.18 ± 2.33                |
+| Pytorch                 | 7.88 ± 1.97                |
+
 
 
 ### References
