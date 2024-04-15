@@ -54,6 +54,11 @@ Run:
 | Pytorch                  | 30.07 ± 0.3887  | 28.43 ± 0.2726 | 30.16 ± 0.2686  | 31.74 ± 0.3691 | 30.10         | 3:42:15                      |
 
 
+> [!NOTE]
+Scores for four styles ("Animation", "Concept-art", "Painting", and "Photo") and the average score are provided. Higher scores indicate better image quality.
+Inference Time testing is conducted across the entire benchmark dataset.
+
+
 **Calculating CLIP Score:**
 
 | Optimization Technique               | Paintings Score | Photo Score | Concept-Art Score | Anime Score | Average Score |
@@ -85,10 +90,6 @@ Run:
 | Pytorch     | 15.80 ± 4.24     |
 
 
-
-> [!NOTE]
-Scores for four styles ("Animation", "Concept-art", "Painting", and "Photo") and the average score are provided. Higher scores indicate better image quality.
-Inference Time testing is conducted across the entire benchmark dataset.
 
 ### SD 1.5
 Run:
