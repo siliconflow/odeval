@@ -44,5 +44,6 @@ python -m clip_score $OUTPUT_DIR/concept-art $PROMPTS_DIR/concept-art
 python -m clip_score $OUTPUT_DIR/paintings $PROMPTS_DIR/paintings
 python -m clip_score $OUTPUT_DIR/photo $PROMPTS_DIR/photo
 
-python3 aesthetic_score.py --image_path $OUTPUT_DIR
-python3 inception_score.py --path $OUTPUT_DIR
+python3 metrics/aesthetic_score.py --image_path $OUTPUT_DIR
+
+python3 metrics/inception_score.py --path $OUTPUT_DIR

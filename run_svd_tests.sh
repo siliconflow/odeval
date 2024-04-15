@@ -30,6 +30,6 @@ for category in anime concept-art paintings photo; do
     evaluate_clip_score "$category"
 done
 
-python3 aesthetic_score.py --image_path $OUTPUT_DIR
+python3 metrics/aesthetic_score.py --image_path $OUTPUT_DIR
 
-python3 inception_score.py --path $OUTPUT_DIR
+python3 metrics/inception_score.py --path $OUTPUT_DIR
