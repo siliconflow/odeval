@@ -40,7 +40,7 @@ This repository is used for evaluating the quality of generation after compilati
 
 ## Models
 
-Currently, the quality of SDXL, SD 1.5, and SVD after OneDiff acceleration has been evaluated. For explanations of these metrics, please see: https://github.com/siliconflow/OneDiffGenMetrics/wiki/Datasets-and-evaluation-metrics-used-for-quality-benchmarking.
+Currently, the quality of SDXL, SD 1.5, and SVD after OneDiff acceleration has been benchmarked. For explanations of these metrics, please see: https://github.com/siliconflow/OneDiffGenMetrics/wiki/Datasets-and-evaluation-metrics-used-for-quality-benchmarking.
 
 ### SDXL
 Run:
