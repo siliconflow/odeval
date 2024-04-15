@@ -61,9 +61,3 @@ def generate_image(
     ).images
 
     return image[0]
-
-
-if __name__ == "__main__":
-    prompt = "A serene landscape with mountains in the background and a lake in the foreground, under a clear blue sky"
-    generated_image = generate_image(prompt)
-    generated_image.show()
