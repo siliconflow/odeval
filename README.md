@@ -47,7 +47,7 @@ Run:
     bash run_sdxl_tests.sh
     ```
 
-**HPSv2 comparison results:**
+**HPSv2** comparison results:
 
 
 | Optimization Technique | Paintings  | Photo | Concept-Art  | Anime | Average Score |
@@ -63,7 +63,7 @@ Run:
 Scores for four styles ("Animation", "Concept-art", "Painting", and "Photo") and the average score are provided. Higher scores indicate better image quality.
 
 
-**CLIP Score comparison results:**
+**CLIP Score** comparison results:
 
 | Optimization Technique | Paintings | Photo | Concept-Art| Anime | Average Score |
 |--------------------------------------|-----------------|-------------|-------------------|-------------|---------------|
@@ -73,7 +73,7 @@ Scores for four styles ("Animation", "Concept-art", "Painting", and "Photo") and
 | OneDiff Compile (CE) | 35.78 | 34.83 | 35.43 | 31.77 | 34.45 |
 | Pytorch | 35.78 | 34.83 | 35.42 | 31.77 | 34.45 |
 
-**Average Aesthetic Score and Inception Score:**
+**Average Aesthetic Score** and **Inception Score** comparison results:
 
 | Optimization Technique | Average Aesthetic Score | Average Inception Score |
 |---------------------------------------|-------------------------|------------------------------|
@@ -91,7 +91,7 @@ Run:
     bash run_sd1_5_tests.sh
     ```
 
-**HPSv2 comparison results:**
+**HPSv2** comparison results:
 
 | Optimization Technique      | Paintings Score | Photo Score | Concept-Art Score | Anime Score | Average Score |
 |-------------------------|-----------------|-------------|-------------------|-------------|---------------|
@@ -101,7 +101,7 @@ Run:
 | OneDiff Compile (CE)         | 24.58 ± 0.3372  | 25.83 ± 0.3850 | 24.71 ± 0.4705  | 26.25 ± 0.2840 | 25.34         | 
 | Pytorch                      | 24.55 ± 0.3336  | 25.78 ± 0.3986 | 24.70 ± 0.4624  | 26.24 ± 0.2989 | 25.32         | 
 
-**CLIP Score comparison results:**
+**CLIP Score** comparison results:
 
 | Optimization Technique               | Paintings Score | Photo Score | Concept-Art Score | Anime Score | Average Score |
 |--------------------------------------|-----------------|-------------|-------------------|-------------|---------------|
@@ -112,7 +112,7 @@ Run:
 | Pytorch                              | 33.76           | 32.98       | 33.62             | 30.96       | 32.83         |
 
 
-**Average Aesthetic Score and Inception Score:**
+**Average Aesthetic Score** and **Inception Score** comparison results:
 
 | Optimization Technique                | Average Aesthetic Score | Average Inception Score      |
 |---------------------------------------|-------------------------|------------------------------|
@@ -133,7 +133,7 @@ Run:
     bash run_svd_tests.sh
     ```
 
-**HPSv2 comparison results:**
+**HPSv2** comparison results:
 
 | Optimization Technique      | Paintings Score | Photo Score | Concept-Art Score | Anime Score | Average Score |
 |-----------------------------|-----------------|-------------|-------------------|-------------|---------------|
@@ -143,7 +143,7 @@ Run:
 | Pytorch                      | 25.82 ± 0.1076 | 24.28 ± 0.1298 | 26.48 ± 0.0792 | 26.82 ± 0.5806 | 25.85         | 
 
 
-**CLIP Score comparison results:**
+**CLIP Score** comparison results:
 
 | Optimization Technique           | Paintings Score | Photo Score | Concept-Art Score | Anime Score | Average Score |
 |----------------------------------|-----------------|-------------|-------------------|-------------|---------------|
@@ -152,7 +152,7 @@ Run:
 | OneDiff Compile (CE)             | 32.57           | 31.38       | 31.66             | 30.02       | 31.41         |
 | Pytorch                          | 32.43           | 31.24       | 31.81             | 29.92       | 31.35         |
 
-**Average Aesthetic Score and Inception Score:**
+**Average Aesthetic Score** and **Inception Score** comparison results:
 
 | Optimization Technique                | Average Aesthetic Score | Average Inception Score   |
 |---------------------------------------|-------------------------|---------------------------|
@@ -160,7 +160,6 @@ Run:
 | OneDiff DeepCache (CE)                | 5.32                    | 7.63 ± 2.19               |
 | OneDiff Compile (CE)                  | 5.48                    | 8.18 ± 2.33               |
 | Pytorch                               | 5.50                    | 7.88 ± 1.97               |
-
 
 
 
