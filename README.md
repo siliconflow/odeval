@@ -16,22 +16,17 @@ This repository is used for evaluating the quality of generation after compilati
 
 2. **Prepare Benchmark environment.**
 
-    ```
-    # Method 1: Pypi download and install
-    pip install hpsv2
-
-    # Method 2: install locally
-    git clone https://github.com/tgxs002/HPSv2.git
-    cd HPSv2
-    pip install -e . 
-
-    # Optional: images for reproducing our benchmark will be downloaded here
-    # default: ~/.cache/hpsv2/
-    export HPS_ROOT=/your/cache/path
-    ```
-[HPSv2](https://github.com/tgxs002/HPSv2) is a scoring model that can more accurately predict human preferences on text-generated images.
+    Human Preference Dataset v2 (HPD v2)
+    [HPSv2](https://github.com/tgxs002/HPSv2) is a scoring model that can more accurately predict human preferences on text-generated images.
 
 <p align="center"><img src="imgs/overview.png"/ width="70%"><br></p>
+
+    ```
+    pip3 install -r requirements.txt
+    ```
+
+
+
 
 ## Models
 
