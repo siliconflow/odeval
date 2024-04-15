@@ -14,7 +14,7 @@ class Dataset(data.Dataset):
         return len(self.file_names)
 
     def __getitem__(self, index):
-        img = Image.open(self.file_names[index]).convert('RGB')
+        img = Image.open(self.file_names[index]).convert("RGB")
         if self.transform is not None:
             img = self.transform(img)
         return img
@@ -23,7 +23,7 @@ class Dataset(data.Dataset):
         images = []
         for path, subdirs, files in os.walk(data_path):
             for name in files:
-                if name.rfind('jpg') != -1 or name.rfind('png') != -1:
+                if name.rfind("jpg") != -1 or name.rfind("png") != -1:
                     filename = os.path.join(path, name)
                     if os.path.isfile(filename):
                         print(filename)

@@ -6,7 +6,18 @@ from onediff.infer_compiler import oneflow_compile
 from onediff.schedulers import EulerDiscreteScheduler
 from diffusers import StableDiffusionXLPipeline
 
-def generate_image(prompt, base_model="stabilityai/stable-diffusion-xl-base-1.0", variant="fp16", height=576, width=1024, n_steps=30, seed=1, compile_unet=True, compile_vae=False):
+
+def generate_image(
+    prompt,
+    base_model="stabilityai/stable-diffusion-xl-base-1.0",
+    variant="fp16",
+    height=576,
+    width=1024,
+    n_steps=30,
+    seed=1,
+    compile_unet=True,
+    compile_vae=False,
+):
     """
     Generates an image based on the given prompt using the Stable Diffusion XL pipeline.
 
@@ -21,8 +32,9 @@ def generate_image(prompt, base_model="stabilityai/stable-diffusion-xl-base-1.0"
     :param compile_vae: Whether to compile the VAE decoder with OneFlow. Defaults to True.
     :return: The generated image.
     """
-    # Scheduler and base model initialization
-    scheduler = EulerDiscreteScheduler.from_pretrained(base_model, subfolder="scheduler")
+    scheduler = EulerDiscreteScheduler.from_pretrained(
+        base_model, subfolder="scheduler"
+    )
     base = StableDiffusionXLPipeline.from_pretrained(
         base_model,
         scheduler=scheduler,
@@ -32,16 +44,13 @@ def generate_image(prompt, base_model="stabilityai/stable-diffusion-xl-base-1.0"
     )
     base.to("cuda")
 
-    # Compile parts of the model with OneFlow if enabled
     if compile_unet:
         base.unet = oneflow_compile(base.unet)
     if compile_vae:
         base.vae.decoder = oneflow_compile(base.vae.decoder)
 
-    # Set seed for reproducibility
     torch.manual_seed(seed)
 
-    # Generate image
     print("Generating image...")
     image = base(
         prompt=prompt,
@@ -51,11 +60,10 @@ def generate_image(prompt, base_model="stabilityai/stable-diffusion-xl-base-1.0"
         output_type="pil",
     ).images
 
-    # Return the generated image
     return image[0]
 
-# Example usage
+
 if __name__ == "__main__":
     prompt = "A serene landscape with mountains in the background and a lake in the foreground, under a clear blue sky"
     generated_image = generate_image(prompt)
-    generated_image.show()  # Display the generated image
+    generated_image.show()
