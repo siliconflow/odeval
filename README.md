@@ -10,10 +10,11 @@ This repository is used for evaluating the quality of generation after compilati
    - [Set up the OneDiff environment](#1-set-up-the-onediff-environment)
    - [Prepare Benchmark environment](#2-prepare-benchmark-environment)
 2. [Models](#models)
+   - [Introduction](#introduction)
    - [SDXL](#sdxl)
    - [SD 1.5](#sd-15)
    - [SVD](#svd)
-3. [References](#references)
+4. [References](#references)
 
 
 ## Quick Start
@@ -40,6 +41,7 @@ This repository is used for evaluating the quality of generation after compilati
 
 ## Models
 
+### Introductio
 Currently, the quality of SDXL, SD 1.5, and SVD after OneDiff acceleration has been benchmarked. For explanations of these metrics, please see: https://github.com/siliconflow/OneDiffGenMetrics/wiki/Datasets-and-evaluation-metrics-used-for-quality-benchmarking.
 
 ### SDXL
