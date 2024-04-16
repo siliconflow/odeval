@@ -51,7 +51,7 @@ Run:
     bash run_sdxl_tests.sh
     ```
 
-**HPSv2** comparison results:
+**HPS v2** comparison results:
 
 
 | Optimization Technique | Paintings  | Photo | Concept-Art  | Anime | Average Score |
@@ -98,7 +98,7 @@ Run:
     bash run_sd1_5_tests.sh
     ```
 
-**HPSv2** comparison results:
+**HPS v2** comparison results:
 
 | Optimization Technique      | Paintings Score | Photo Score | Concept-Art Score | Anime Score | Average Score |
 |-------------------------|-----------------|-------------|-------------------|-------------|---------------|
@@ -144,7 +144,7 @@ Run:
     bash run_svd_tests.sh
     ```
 
-**HPSv2** comparison results:
+**HPS v2** comparison results:
 
 | Optimization Technique      | Paintings Score | Photo Score | Concept-Art Score | Anime Score | Average Score |
 |-----------------------------|-----------------|-------------|-------------------|-------------|---------------|
