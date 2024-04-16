@@ -35,9 +35,9 @@ run_benchmark() {
 
 run_benchmark "_enterprise" "True" "True"
 run_benchmark "_enterprise" "False" "True"
-run_benchmark "" "True" "True"
-run_benchmark "" "False" "True"
-run_benchmark "" "False" "False"
+python3 sdxl/text_to_image_sdxl_quality_benchmark.py --image_path $OUTPUT_DIR
+python3 sdxl/text_to_image_sdxl_quality_benchmark.py --image_path $OUTPUT_DIR --deep_cache False
+python3 sdxl/text_to_image_sdxl_quality_benchmark.py --image_path $OUTPUT_DIR --compile False --deep_cache False
 
 python -m clip_score $OUTPUT_DIR/anime $PROMPTS_DIR/anime
 python -m clip_score $OUTPUT_DIR/concept-art $PROMPTS_DIR/concept-art
