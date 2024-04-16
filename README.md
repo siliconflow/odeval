@@ -145,6 +145,9 @@ Run:
     bash run_svd_tests.sh
     ```
 
+> [!NOTE]
+Evaluate using the last frame of the video.
+
 **HPS v2** comparison results:
 
 | Optimization Technique      | Paintings Score | Photo Score | Concept-Art Score | Anime Score | Average Score |
