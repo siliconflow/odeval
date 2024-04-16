@@ -34,6 +34,7 @@ This repository is used for evaluating the quality of generation after compilati
     Install the benchmark library:
     ```
     pip3 install -r requirements.txt
+    pip3 install -e .
     ```
 
 
