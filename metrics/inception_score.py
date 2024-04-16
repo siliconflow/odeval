@@ -6,7 +6,7 @@ import torch.utils.data
 import os
 import imageio
 from torchvision.models.inception import inception_v3
-from utils import load_img_data
+from utils.load_img_data import Dataset
 import numpy as np
 from scipy.stats import entropy
 from tqdm import tqdm
@@ -87,7 +87,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
     os.environ["CUDA_VISIBLE_DEVICES"] = args.gpu
 
-    imgs = load_img_data.Dataset(
+    imgs = Dataset(
         args.path,
         transforms.Compose(
             [
