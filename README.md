@@ -64,26 +64,29 @@ Run:
 > [!NOTE]
 Scores for four styles ("Animation", "Concept-art", "Painting", and "Photo") and the average score are provided. Higher scores indicate better image quality.
 
+<details>
+<summary>CLIP Score comparison results:</summary>
 
-**CLIP Score** comparison results:
+   | Optimization Technique | Paintings | Photo | Concept-Art| Anime | Average Score |
+   |--------------------------------------|-----------------|-------------|-------------------|-------------|---------------|
+   | OneDiff Quant + OneDiff DeepCache (EE) | 35.46 | 34.44 | 35.24 | 31.85 | 34.25 |
+   | OneDiff Quant (EE) | 35.88 | 34.74 | 35.53 | 31.80 | 34.49 |
+   | OneDiff DeepCache (CE) | 35.42 | 34.47 | 35.15 | 31.83 | 34.22 |
+   | OneDiff Compile (CE) | 35.78 | 34.83 | 35.43 | 31.77 | 34.45 |
+   | Pytorch | 35.78 | 34.83 | 35.42 | 31.77 | 34.45 |
+   </details>
 
-| Optimization Technique | Paintings | Photo | Concept-Art| Anime | Average Score |
-|--------------------------------------|-----------------|-------------|-------------------|-------------|---------------|
-| OneDiff Quant + OneDiff DeepCache (EE) | 35.46 | 34.44 | 35.24 | 31.85 | 34.25 |
-| OneDiff Quant (EE) | 35.88 | 34.74 | 35.53 | 31.80 | 34.49 |
-| OneDiff DeepCache (CE) | 35.42 | 34.47 | 35.15 | 31.83 | 34.22 |
-| OneDiff Compile (CE) | 35.78 | 34.83 | 35.43 | 31.77 | 34.45 |
-| Pytorch | 35.78 | 34.83 | 35.42 | 31.77 | 34.45 |
+<details>
+<summary>Average Aesthetic Score and Inception Score comparison results:</summary>
 
-**Average Aesthetic Score** and **Inception Score** comparison results:
-
-| Optimization Technique | Average Aesthetic Score | Average Inception Score |
-|---------------------------------------|-------------------------|------------------------------|
-| OneDiff Quant + OneDiff DeepCache (EE) | 5.93                    | 16.43 ± 3.75                 |
-| OneDiff Quant (EE)                    | 5.97                    | 16.02 ± 4.60                 |
-| OneDiff DeepCache (CE)                | 5.91                    | 15.82 ± 3.80                 |
-| OneDiff Compile (CE)                  | 5.97                    | 15.88 ± 4.43                 |
-| Pytorch                               | 5.97                    | 15.80 ± 4.24                 |
+   | Optimization Technique | Average Aesthetic Score | Average Inception Score |
+   |---------------------------------------|-------------------------|------------------------------|
+   | OneDiff Quant + OneDiff DeepCache (EE) | 5.93                    | 16.43 ± 3.75                 |
+   | OneDiff Quant (EE)                    | 5.97                    | 16.02 ± 4.60                 |
+   | OneDiff DeepCache (CE)                | 5.91                    | 15.82 ± 3.80                 |
+   | OneDiff Compile (CE)                  | 5.97                    | 15.88 ± 4.43                 |
+   | Pytorch                               | 5.97                    | 15.80 ± 4.24                 |
+   </details>
 
 
 ### SD 1.5
