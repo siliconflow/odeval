@@ -63,7 +63,6 @@ Run:
 | OneDiff Compile (CE) | 30.07 ± 0.3789  | 28.42 ± 0.2491 | 30.17 ± 0.2834  | 31.73 ± 0.3485 | 30.10 | 
 | Pytorch | 30.07 ± 0.3887  | 28.43 ± 0.2726 | 30.16 ± 0.2686  | 31.74 ± 0.3691 | 30.10 | 
 
-
 > [!NOTE]
 Scores for four styles ("Animation", "Concept-art", "Painting", and "Photo") and the average score are provided. Higher scores indicate better image quality.
 
@@ -90,6 +89,8 @@ Scores for four styles ("Animation", "Concept-art", "Painting", and "Photo") and
    | OneDiff Compile (CE)                  | 5.97                    | 15.88 ± 4.43                 |
    | Pytorch                               | 5.97                    | 15.80 ± 4.24                 |
    </details>
+
+The visual comparison of the generated images is available at: https://github.com/siliconflow/OneDiffGenMetrics/wiki/Visual-comparison
 
 
 ### SD 1.5
