@@ -90,8 +90,6 @@ Scores for four styles ("Animation", "Concept-art", "Painting", and "Photo") and
    | Pytorch                               | 5.97                    | 15.80 ± 4.24                 |
    </details>
 
-The visual comparison of the generated images is available at: https://github.com/siliconflow/OneDiffGenMetrics/wiki/Visual-comparison
-
 
 ### SD 1.5
 Run:
