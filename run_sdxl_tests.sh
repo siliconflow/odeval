@@ -16,7 +16,7 @@ fi
 OUTPUT_DIR="/path/to/your/output"
 PROMPTS_DIR="/path/to/prompts"
 
-run_benchmark() {
+run_enterprise_benchmark() {
     local model=$1
     local cache=$2
     local compile=$3
@@ -33,16 +33,20 @@ run_benchmark() {
     python3 $script_name --model $MODEL_PATH --image_path $OUTPUT_DIR $options
 }
 
-run_benchmark "_enterprise" "True" "True"
-run_benchmark "_enterprise" "False" "True"
+run_enterprise_benchmark "_enterprise" "True" "True"
+run_enterprise_benchmark "_enterprise" "False" "True"
 python3 sdxl/text_to_image_sdxl_quality_benchmark.py --image_path $OUTPUT_DIR
 python3 sdxl/text_to_image_sdxl_quality_benchmark.py --image_path $OUTPUT_DIR --deep_cache False
 python3 sdxl/text_to_image_sdxl_quality_benchmark.py --image_path $OUTPUT_DIR --compile False --deep_cache False
 
-python -m clip_score $OUTPUT_DIR/anime $PROMPTS_DIR/anime
-python -m clip_score $OUTPUT_DIR/concept-art $PROMPTS_DIR/concept-art
-python -m clip_score $OUTPUT_DIR/paintings $PROMPTS_DIR/paintings
-python -m clip_score $OUTPUT_DIR/photo $PROMPTS_DIR/photo
+evaluate_clip_score() {
+    local category="$1"
+    python -m clip_score "$OUTPUT_DIR/$category" "$PROMPTS_DIR/$category"
+}
+
+for category in anime concept-art paintings photo; do
+    evaluate_clip_score "$category"
+done
 
 python3 metrics/aesthetic_score.py --image_path $OUTPUT_DIR
 
