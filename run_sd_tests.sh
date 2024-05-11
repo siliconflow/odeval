@@ -30,6 +30,8 @@ python3 sd/text_to_image_sd1_5_quality_benchmark.py --image_path $OUTPUT_DIR
 python3 sd/text_to_image_sd1_5_quality_benchmark.py --image_path $OUTPUT_DIR --deep_cache False
 python3 sd/text_to_image_sd1_5_quality_benchmark.py --image_path $OUTPUT_DIR --compile False --deep_cache False
 
+python3 metrics/structural_similarity.py --folder1 path/to/folder1 --folder2 path/to/folder2
+
 evaluate_clip_score() {
     local category="$1"
     python -m clip_score "$OUTPUT_DIR/$category" "$PROMPTS_DIR/$category"

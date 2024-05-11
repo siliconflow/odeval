@@ -76,6 +76,8 @@ args = parse_args()
 
 # Load HPSv2 benchmark prompts
 all_prompts = hpsv2.benchmark_prompts("all")
+quantized_layers_count = 0
+OUTPUT_TYPE = "pil"
 
 # Ensure the output directories exist
 for style in all_prompts.keys():
@@ -110,6 +112,7 @@ else:
         "height": args.height,
         "width": args.width,
         "num_inference_steps": args.steps,
+        "output_type": OUTPUT_TYPE,
     }
 
 calibrate_info = {}
@@ -140,6 +143,9 @@ for sub_module_name, sub_calibrate_info in calibrate_info.items():
     replace_sub_module_with_quantizable_module(
         pipe.unet, sub_module_name, sub_calibrate_info, False, False, args.bits,
     )
+    quantized_layers_count += 1
+
+print(f"Total quantized layers: {quantized_layers_count}")
 
 if args.compile_text_encoder:
     if pipe.text_encoder is not None:

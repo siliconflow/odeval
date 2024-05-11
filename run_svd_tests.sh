@@ -21,6 +21,8 @@ python3 svd/text_to_video_svd_quality_benchmark.py --image_path $OUTPUT_DIR --de
 python3 svd/text_to_video_svd_quality_benchmark.py --image_path $OUTPUT_DIR
 python3 svd/text_to_video_svd_quality_benchmark.py --image_path $OUTPUT_DIR --compiler none
   
+python3 metrics/structural_similarity.py --folder1 path/to/folder1 --folder2 path/to/folder2
+
 evaluate_clip_score() {
     local category="$1"
     python -m clip_score "$OUTPUT_DIR/$category" "$PROMPTS_DIR/$category"
