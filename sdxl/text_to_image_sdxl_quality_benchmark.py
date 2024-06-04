@@ -70,9 +70,8 @@ if args.compile:
         base.unet = oneflow_compile(base.unet)
         base.vae.decoder = oneflow_compile(base.vae.decoder)
 
-torch.manual_seed(args.seed)
-
 if args.deep_cache:
+    torch.manual_seed(args.seed)
     image = base(
         prompt="Warmup",
         height=args.height,
@@ -84,6 +83,7 @@ if args.deep_cache:
         output_type=OUTPUT_TYPE,
     ).images
 else:
+    torch.manual_seed(args.seed)
     image = base(
         prompt="Warmup",
         height=args.height,
@@ -103,6 +103,7 @@ torch.cuda.cudart().cudaProfilerStart()
 for style, prompts in all_prompts.items():
     for idx, prompt in enumerate(prompts):
         if args.deep_cache:
+            torch.manual_seed(args.seed)
             image = base(
                 prompt=prompt,
                 height=args.height,
@@ -114,6 +115,7 @@ for style, prompts in all_prompts.items():
                 output_type=OUTPUT_TYPE,
             ).images[0]
         else:
+            torch.manual_seed(args.seed)
             image = base(
                 prompt=prompt,
                 height=args.height,

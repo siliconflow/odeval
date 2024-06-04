@@ -165,8 +165,6 @@ if args.compile:
             pipe.upcast_vae()
     pipe.vae.decoder = oneflow_compile(pipe.vae.decoder,)
 
-torch.manual_seed(args.seed)
-
 if args.load_graph:
     print("Loading graphs to avoid compilation...")
     start_t = time.time()
@@ -177,12 +175,14 @@ if args.load_graph:
     print(f"warmup with loading graph elapsed: {end_t - start_t} s")
     start_t = time.time()
     for _ in range(args.warmup):
+        torch.manual_seed(args.seed)
         image = pipe(**infer_args).images[0]
     end_t = time.time()
     print(f"warmup with run elapsed: {end_t - start_t} s")
 else:
     start_t = time.time()
     for _ in range(args.warmup):
+        torch.manual_seed(args.seed)
         image = pipe(**infer_args).images[0]
     end_t = time.time()
     print(f"warmup with run elapsed: {end_t - start_t} s")
@@ -195,6 +195,7 @@ for style, prompts in all_prompts.items():
         # Update inference arguments with the current prompt
         infer_args["prompt"] = prompt
         # Generate the image
+        torch.manual_seed(args.seed)
         image = pipe(**infer_args).images[0]
 
         directory_path = os.path.join(args.image_path, style)

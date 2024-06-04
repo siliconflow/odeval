@@ -58,14 +58,22 @@ Run:
 
 | Optimization Technique | Paintings  | Photo | Concept-Art  | Anime | Average Score |
 |------------------------|-----------------|-------------|-------------------|-------------|---------------|
-| OneDiff Quant + OneDiff DeepCache (EE) | 28.51 ± 0.4962  | 26.91 ± 0.4605 | 28.42 ± 0.3953  | 30.50 ± 0.3470 | 28.58 | 
-| OneDiff DeepCache (CE) | 28.45 ± 0.3816  | 27.03 ± 0.3348 | 28.56 ± 0.3517  | 30.49 ± 0.3626 | 28.63 | 
-| OneDiff Quant (EE)  | 30.05 ± 0.3897  | 28.26 ± 0.4339 | 30.04 ± 0.3807  | 31.79 ± 0.3224 | 30.04 | 
-| OneDiff Compile (CE) | 30.07 ± 0.3789  | 28.42 ± 0.2491 | 30.17 ± 0.2834  | 31.73 ± 0.3485 | 30.10 | 
-| Pytorch | 30.07 ± 0.3887  | 28.43 ± 0.2726 | 30.16 ± 0.2686  | 31.74 ± 0.3691 | 30.10 | 
+| OneDiff Quant + OneDiff DeepCache (EE) | 26.59 ± 0.4364  | 24.34 ± 0.4176 | 26.56 ± 0.2396  | 28.81 ± 0.2871 | 26.58 | 
+| OneDiff DeepCache (CE) | 26.61 ± 0.4333  | 24.34 ± 0.4189 | 26.61 ± 0.2270  | 28.84 ± 0.3113 | 26.60 | 
+| OneDiff Quant (EE)  | 27.87 ± 0.4384  | 25.70 ± 0.4270 | 27.87 ± 0.2297  | 29.91 ± 0.3953 | 27.84 | 
+| OneDiff Compile (CE) | 27.84 ± 0.4312  | 25.70 ± 0.4550 | 27.87 ± 0.2638  | 29.91 ± 0.3791 | 27.83 | 
+| Pytorch | 27.82 ± 0.4275  | 25.70 ± 0.4534 | 27.85 ± 0.2432  | 29.92 ± 0.3666 | 27.82 | 
 
 > [!NOTE]
 Scores for four styles ("Animation", "Concept-art", "Painting", and "Photo") and the average score are provided. Higher scores indicate better image quality.
+
+| Optimization Technique | SSIM   | MSE    | MAE    |
+|--------|--------|--------|--------|
+| OneDiff Quant + OneDiff DeepCache (EE) | 0.7483 | 76.123 | 93.163 |
+| OneDiff DeepCache (CE)  | 0.7504 | 76.198 | 92.085 |
+| OneDiff Quant (EE) | 0.8794 | 30.664 | 117.736|
+| OneDiff Compile (CE) | 0.9380 | 16.155 | 93.989 |
+| Pytorch | -  | - | -  | - | - | 
 
 <details>
 <summary>CLIP Score comparison results:</summary>
