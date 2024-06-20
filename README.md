@@ -1,4 +1,4 @@
-# OneDiffGenMetrics (WIP...)
+# onediffeval (WIP...)
 
 <p align="center">
 <img src="imgs/onediff_logo.png" height="100">
@@ -44,7 +44,7 @@ This repository is used for evaluating the quality of generation after compilati
 ## Models
 
 ### Introduction
-Currently, the quality of SDXL, SD 1.5, and SVD after OneDiff acceleration has been benchmarked. For explanations of these metrics, please see: https://github.com/siliconflow/OneDiffGenMetrics/wiki/Datasets-and-evaluation-metrics-used-for-quality-benchmarking.
+Currently, the quality of SDXL, SD 1.5, and SVD after OneDiff acceleration has been benchmarked. For explanations of these metrics, please see: https://github.com/siliconflow/onediffeval/wiki/Datasets-and-evaluation-metrics-used-for-quality-benchmarking.
 
 ### SDXL
 Run:
@@ -58,9 +58,9 @@ Run:
 
 | Optimization Technique | Paintings  | Photo | Concept-Art  | Anime | Average Score |
 |------------------------|-----------------|-------------|-------------------|-------------|---------------|
-| OneDiff Quant + OneDiff DeepCache (EE) | 26.59 ± 0.4364  | 24.34 ± 0.4176 | 26.56 ± 0.2396  | 28.81 ± 0.2871 | 26.58 | 
+| OneDiff Quant + OneDiff DeepCache (EE) | 26.58 ± 0.4468  | 24.31 ± 0.4500 | 26.55 ± 0.2888  | 28.81 ± 0.3119 | 26.56 | 
 | OneDiff DeepCache (CE) | 26.61 ± 0.4333  | 24.34 ± 0.4189 | 26.61 ± 0.2270  | 28.84 ± 0.3113 | 26.60 | 
-| OneDiff Quant (EE)  | 27.87 ± 0.4384  | 25.70 ± 0.4270 | 27.87 ± 0.2297  | 29.91 ± 0.3953 | 27.84 | 
+| OneDiff Quant (EE)  | 27.87 ± 0.4419  | 25.70 ± 0.4253 | 27.86 ± 0.2222  | 29.93 ± 0.3920 | 27.84 | 
 | OneDiff Compile (CE) | 27.84 ± 0.4312  | 25.70 ± 0.4550 | 27.87 ± 0.2638  | 29.91 ± 0.3791 | 27.83 | 
 | Pytorch | 27.82 ± 0.4275  | 25.70 ± 0.4534 | 27.85 ± 0.2432  | 29.92 ± 0.3666 | 27.82 | 
 
