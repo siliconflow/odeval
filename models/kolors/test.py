@@ -162,11 +162,13 @@ def main():
     }
 
     kolors.warmup(gen_args, args.warmup_iterations)
+    # torch.cuda.empty_cache()
 
     for idx, prompt in enumerate(prompts):
         gen_args["prompt"] = prompt
         output_path = os.path.join(args.output_dir, f"image_{idx+1}.png")
         image, inference_time = kolors.generate(gen_args, output_path)
+        # torch.cuda.empty_cache()
         print(f"Generated image saved to {output_path} in {inference_time:.2f} seconds.")
         cuda_mem_after_used = torch.cuda.max_memory_allocated() / (1024 ** 3)
         print(f"Max used CUDA memory: {cuda_mem_after_used:.3f} GiB")
