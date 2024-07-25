@@ -196,3 +196,15 @@ Evaluate using the last frame of the video.
 - SUN Zhengwentai. clip-score: CLIP Score for PyTorch. https://github.com/Taited/clip-score, 2023.
 - Christoph Schuhmann. CLIP+MLP Aesthetic Score Predictor. https://github.com/christophschuhmann/improved-aesthetic-predictor, 2022.
 - Tim Salimans, Ian Goodfellow, Wojciech Zaremba, Vicki Cheung, Alec Radford, and Xi Chen. Improved techniques for training gans. NeurIPS, 29, 2016.
+
+
+
+
+Evaluating the use of all generative models is divided into two steps: 
+1. Generate a large number of benchmark images. 
+
+
+
+2. Test using multiple indicators with scripts.
+
+

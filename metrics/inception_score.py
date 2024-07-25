@@ -4,21 +4,12 @@ from torch.autograd import Variable
 from torch.nn import functional as F
 import torch.utils.data
 import os
-import imageio
-from torchvision.models.inception import inception_v3
-from utils.load_img_data import Dataset
 import numpy as np
 from scipy.stats import entropy
 from tqdm import tqdm
-from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter
-
-
-parser = ArgumentParser(formatter_class=ArgumentDefaultsHelpFormatter)
-parser.add_argument(
-    "-c", "--gpu", default="0", type=str, help="GPU to use (leave blank for CPU only)"
-)
-parser.add_argument("--path", type=str, default="/path/to/your/output")
-
+from torchvision.models.inception import inception_v3
+import torchvision.transforms as transforms
+from utils.load_img_data import Dataset
 
 def inception_score(imgs, cuda=True, batch_size=32, resize=True, splits=10):
     N = len(imgs)
@@ -45,7 +36,7 @@ def inception_score(imgs, cuda=True, batch_size=32, resize=True, splits=10):
         if resize:
             x = up(x)
         x = inception_model(x)
-        return F.softmax(x).data.cpu().numpy()
+        return F.softmax(x, dim=1).data.cpu().numpy()
 
     preds = np.zeros((N, 1000))
 
@@ -69,26 +60,9 @@ def inception_score(imgs, cuda=True, batch_size=32, resize=True, splits=10):
 
     return np.mean(split_scores), np.std(split_scores)
 
-
-if __name__ == "__main__":
-
-    class IgnoreLabelDataset(torch.utils.data.Dataset):
-        def __init__(self, orig):
-            self.orig = orig
-
-        def __getitem__(self, index):
-            return self.orig[index][0]
-
-        def __len__(self):
-            return len(self.orig)
-
-    import torchvision.transforms as transforms
-
-    args = parser.parse_args()
-    os.environ["CUDA_VISIBLE_DEVICES"] = args.gpu
-
+def calculate_inception_score(image_dir, cuda=True, batch_size=32, resize=True, splits=10):
     imgs = Dataset(
-        args.path,
+        image_dir,
         transforms.Compose(
             [
                 transforms.ToTensor(),
@@ -97,4 +71,26 @@ if __name__ == "__main__":
         ),
     )
 
-    print(inception_score(imgs, cuda=True, batch_size=32, resize=True, splits=10))
+    return inception_score(imgs, cuda=cuda, batch_size=batch_size, resize=resize, splits=splits)
+
+if __name__ == "__main__":
+    from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter
+
+    parser = ArgumentParser(formatter_class=ArgumentDefaultsHelpFormatter)
+    parser.add_argument("--path", type=str, required=True, help="Path to the directory containing the images")
+    parser.add_argument("--batch_size", type=int, default=32, help="Batch size for data loader")
+    parser.add_argument("--splits", type=int, default=10, help="Number of splits for Inception Score calculation")
+    parser.add_argument("--resize", type=bool, default=True, help="Whether to resize images to 299x299")
+    parser.add_argument("--cuda", type=bool, default=True, help="Whether to use GPU for calculations")
+
+    args = parser.parse_args()
+
+    score, std = calculate_inception_score(
+        args.path, 
+        cuda=args.cuda, 
+        batch_size=args.batch_size, 
+        resize=args.resize, 
+        splits=args.splits, 
+    )
+    
+    print(f"Inception Score: {score} ± {std}")
