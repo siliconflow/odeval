@@ -1,4 +1,4 @@
-from typing import List, Optional, Callable, Any
+from typing import List, Optional, Callable, Any, Dict
 from abc import ABC, abstractmethod
 import os
 from PIL import Image
@@ -118,28 +118,22 @@ class ImageDataset(BaseImageLoader, Dataset):
     
     
 class CaptionImageDataset(Dataset):
-    
-    def __init__(
-        self,
-        images_paths: List[str],
-        captions: List[str],
-        preprocess_fn: Optional[Callable[[Image.Image], Any]] = None,
-    ):
-        assert len(images_paths) == len(captions)
+    def __init__(self, images_paths: List[str], captions_mapping: Dict[str, str], preprocess_fn: Optional[Callable[[Image.Image], Any]] = None):
         self.images_paths = images_paths
-        self.captions = captions
+        self.captions_mapping = captions_mapping
         self.preprocess_fn = preprocess_fn if preprocess_fn else lambda x: x
 
     def __len__(self) -> int:
         return len(self.images_paths)
     
     def __getitem__(self, idx: int) -> tuple:
-        image = Image.open(self.images_paths[idx])
-        return self.preprocess_fn(image), self.captions[idx]
+        image_path = self.images_paths[idx]
+        image = Image.open(image_path)
+        caption = self.captions_mapping[image_path]
+        return self.preprocess_fn(image), caption
     
     def __str__(self) -> str:
         return f"CaptionImageDataset({self.__len__()} items)"
-    
     
 def get_images_from_folder(folder_path: str) -> ImageDataset:
     filepaths = []

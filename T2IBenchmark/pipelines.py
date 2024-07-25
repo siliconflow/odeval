@@ -180,17 +180,14 @@ def calculate_clip_score(
     seed: Optional[int] = 42,
     batch_size: int = 128,
     dataloader_workers: int = 16,
-    verbose: bool = True,
+    verbose: bool = False,
 ):
     if seed:
         set_all_seeds(seed)
 
     model, preprocess = clip.load("ViT-B/32", device=device)
-    dataset = CaptionImageDataset(
-        images_paths=image_paths,
-        captions=list(map(lambda x: captions_mapping[x], image_paths)),
-        preprocess_fn=preprocess,
-    )
+    dataset = CaptionImageDataset(images_paths=image_paths, captions_mapping=captions_mapping, preprocess_fn=preprocess)
+
     dataloader = DataLoader(
         dataset,
         batch_size=batch_size,
@@ -200,24 +197,25 @@ def calculate_clip_score(
     )
 
     score_acc = 0.0
-    num_samples = 0.0
+    num_samples = 0
 
-    for image, caption in tqdm(dataloader):
-        image_embedding = model.encode_image(image.to(device))
-        caption_embedding = model.encode_text(clip.tokenize(caption).to(device))
+    for images, captions in tqdm(dataloader):
+        images = images.to(device)
+        captions = [clip.tokenize(caption).to(device) for caption in captions]
 
-        image_features = image_embedding / image_embedding.norm(dim=1, keepdim=True).to(
-            torch.float32
-        )
-        caption_features = caption_embedding / caption_embedding.norm(
-            dim=1, keepdim=True
-        ).to(torch.float32)
+        with torch.no_grad():
+            image_embeddings = model.encode_image(images)
+            caption_embeddings = model.encode_text(torch.cat(captions))
 
-        score = (image_features * caption_features).sum()
-        score_acc += score
-        num_samples += image.shape[0]
+        image_features = image_embeddings / image_embeddings.norm(dim=1, keepdim=True)
+        caption_features = caption_embeddings / caption_embeddings.norm(dim=1, keepdim=True)
+
+        score = (image_features * caption_features).sum(dim=1).mean().item()
+        score_acc += score * images.size(0)
+        num_samples += images.size(0)
 
     clip_score = score_acc / num_samples
-    dprint(verbose, f"CLIP score is {clip_score}")
+    if verbose:
+        print(f"CLIP score is {clip_score}")
 
     return clip_score

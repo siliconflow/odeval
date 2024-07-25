@@ -6,3 +6,4 @@ git+https://github.com/tgxs002/HPSv2.git@master
 git+https://github.com/openai/CLIP.git#egg=clip
 opencv-python
 scipy
+scikit-image

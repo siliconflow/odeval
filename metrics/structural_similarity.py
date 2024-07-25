@@ -22,17 +22,17 @@ def compare_images(standard_output, current_output):
 
 def average_metrics(folder1, folder2):
     metrics = {'ssim': [], 'mse': [], 'mae': []}
-    for subfolder in os.listdir(folder1):
-        subfolder_path1 = os.path.join(folder1, subfolder)
-        subfolder_path2 = os.path.join(folder2, subfolder)
-        images1 = [os.path.join(subfolder_path1, f) for f in os.listdir(subfolder_path1) if f.endswith(('.png', '.jpg', '.jpeg'))]
-        images2 = [os.path.join(subfolder_path2, f) for f in os.listdir(subfolder_path2) if f.endswith(('.png', '.jpg', '.jpeg'))]
-        for img1, img2 in zip(images1, images2):
-            image1 = imread(img1)
-            image2 = imread(img2)
-            results = compare_images(image1, image2)
-            for key in metrics:
-                metrics[key].append(results[key])
+    # for subfolder in os.listdir(folder1):
+    # subfolder_path1 = os.path.join(folder1, subfolder)
+    # subfolder_path2 = os.path.join(folder2, subfolder)
+    images1 = [os.path.join(folder1, f) for f in os.listdir(folder1) if f.endswith(('.png', '.jpg', '.jpeg'))]
+    images2 = [os.path.join(folder2, f) for f in os.listdir(folder2) if f.endswith(('.png', '.jpg', '.jpeg'))]
+    for img1, img2 in zip(images1, images2):
+        image1 = imread(img1)
+        image2 = imread(img2)
+        results = compare_images(image1, image2)
+        for key in metrics:
+            metrics[key].append(results[key])
     average_results = {k: np.mean(v) for k, v in metrics.items()}
     return average_results
 

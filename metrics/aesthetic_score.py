@@ -60,7 +60,7 @@ model2, preprocess = clip.load("ViT-L/14", device=device)
 
 def evaluate_images(folder_path):
     path = Path(folder_path)
-    images = list(path.rglob("*.jpg"))
+    images = list(path.rglob("*.png"))
     scores = []
 
     for img_path in images:
