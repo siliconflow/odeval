@@ -43,7 +43,7 @@ Evaluating the use of all generative models is divided into two steps, taking th
 
 ### 1. Generate benchmark images.
 
-   - On MS COCO-30K:
+   - On [MS COCO-30K](https://huggingface.co/datasets/sayakpaul/coco-30-val-2014):
 
       Assume that the folders `kolors_torch_coco`, `kolors_oneflow_coco`, and `kolors_nexfort_coco` respectively store the original images, images compiled by the onediff's oneflow backend, and images compiled by the nexfort backend.
 
@@ -79,7 +79,7 @@ Evaluating the use of all generative models is divided into two steps, taking th
       --output-dir /path/to/your/kolors_nexfort_coco
       ```
 
-   - On Human Preference Dataset v2 (HPD v2):
+   - On [Human Preference Dataset v2 (HPD v2)](https://github.com/siliconflow/odeval/wiki/Datasets-and-evaluation-metrics-used-for-quality-benchmarking):
 
       Simply modify the `--dataset` parameters, do not read prompts from the `--csv-file` parameter, and customize the `--output-dir` for generating images. For example:
 
