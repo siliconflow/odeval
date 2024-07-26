@@ -1,15 +1,17 @@
+import os
+
+import numpy as np
 import torch
+import torch.utils.data
+import torchvision.transforms as transforms
+from scipy.stats import entropy
 from torch import nn
 from torch.autograd import Variable
 from torch.nn import functional as F
-import torch.utils.data
-import os
-import numpy as np
-from scipy.stats import entropy
-from tqdm import tqdm
 from torchvision.models.inception import inception_v3
-import torchvision.transforms as transforms
+from tqdm import tqdm
 from utils.load_img_data import Dataset
+
 
 def inception_score(imgs, cuda=True, batch_size=32, resize=True, splits=10):
     N = len(imgs)
@@ -60,7 +62,10 @@ def inception_score(imgs, cuda=True, batch_size=32, resize=True, splits=10):
 
     return np.mean(split_scores), np.std(split_scores)
 
-def calculate_inception_score(image_dir, cuda=True, batch_size=32, resize=True, splits=10):
+
+def calculate_inception_score(
+    image_dir, cuda=True, batch_size=32, resize=True, splits=10
+):
     imgs = Dataset(
         image_dir,
         transforms.Compose(
@@ -71,26 +76,45 @@ def calculate_inception_score(image_dir, cuda=True, batch_size=32, resize=True, 
         ),
     )
 
-    return inception_score(imgs, cuda=cuda, batch_size=batch_size, resize=resize, splits=splits)
+    return inception_score(
+        imgs, cuda=cuda, batch_size=batch_size, resize=resize, splits=splits
+    )
+
 
 if __name__ == "__main__":
-    from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter
+    from argparse import ArgumentDefaultsHelpFormatter, ArgumentParser
 
     parser = ArgumentParser(formatter_class=ArgumentDefaultsHelpFormatter)
-    parser.add_argument("--path", type=str, required=True, help="Path to the directory containing the images")
-    parser.add_argument("--batch_size", type=int, default=32, help="Batch size for data loader")
-    parser.add_argument("--splits", type=int, default=10, help="Number of splits for Inception Score calculation")
-    parser.add_argument("--resize", type=bool, default=True, help="Whether to resize images to 299x299")
-    parser.add_argument("--cuda", type=bool, default=True, help="Whether to use GPU for calculations")
+    parser.add_argument(
+        "--path",
+        type=str,
+        required=True,
+        help="Path to the directory containing the images",
+    )
+    parser.add_argument(
+        "--batch_size", type=int, default=32, help="Batch size for data loader"
+    )
+    parser.add_argument(
+        "--splits",
+        type=int,
+        default=10,
+        help="Number of splits for Inception Score calculation",
+    )
+    parser.add_argument(
+        "--resize", type=bool, default=True, help="Whether to resize images to 299x299"
+    )
+    parser.add_argument(
+        "--cuda", type=bool, default=True, help="Whether to use GPU for calculations"
+    )
 
     args = parser.parse_args()
 
     score, std = calculate_inception_score(
-        args.path, 
-        cuda=args.cuda, 
-        batch_size=args.batch_size, 
-        resize=args.resize, 
-        splits=args.splits, 
+        args.path,
+        cuda=args.cuda,
+        batch_size=args.batch_size,
+        resize=args.resize,
+        splits=args.splits,
     )
-    
+
     print(f"Inception Score: {score} ± {std}")

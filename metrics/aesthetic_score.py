@@ -1,12 +1,13 @@
-import torch
+import argparse
+from pathlib import Path
+
 import clip
+import numpy as np
+import pytorch_lightning as pl
+import torch
+import torch.nn as nn
 from PIL import Image
 from torchvision import transforms
-import pytorch_lightning as pl
-import torch.nn as nn
-import numpy as np
-from pathlib import Path
-import argparse
 
 
 class MLP(pl.LightningModule):
@@ -33,7 +34,9 @@ def normalized(a, axis=-1, order=2):
     return a / np.expand_dims(l2, axis)
 
 
-def evaluate_images(folder_path, model_path="resources/sac+logos+ava1-l14-linearMSE.pth"):
+def evaluate_images(
+    folder_path, model_path="resources/sac+logos+ava1-l14-linearMSE.pth"
+):
     device = "cuda" if torch.cuda.is_available() else "cpu"
     model = MLP(768).to(device)
     model.load_state_dict(torch.load(model_path))
@@ -68,6 +71,7 @@ def evaluate_images(folder_path, model_path="resources/sac+logos+ava1-l14-linear
 
 
 if __name__ == "__main__":
+
     def parse_args():
         parser = argparse.ArgumentParser()
         parser.add_argument(

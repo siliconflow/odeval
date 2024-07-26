@@ -20,7 +20,7 @@ run_enterprise_benchmark() {
     local model=$1
     local cache=$2
     local compile=$3
-    local script_name="sdxl/text_to_image_sdxl${model}_quality_benchmark.py"
+    local script_name="models/sdxl/text_to_image_sdxl${model}_quality_benchmark.py"
     local options=""
 
     if [ "$cache" == "False" ]; then
@@ -35,9 +35,9 @@ run_enterprise_benchmark() {
 
 run_enterprise_benchmark "_enterprise" "True" "True"
 run_enterprise_benchmark "_enterprise" "False" "True"
-python3 sdxl/text_to_image_sdxl_quality_benchmark.py --image_path $OUTPUT_DIR
-python3 sdxl/text_to_image_sdxl_quality_benchmark.py --image_path $OUTPUT_DIR --deep_cache False
-python3 sdxl/text_to_image_sdxl_quality_benchmark.py --image_path $OUTPUT_DIR --compile False --deep_cache False
+python3 models/sdxl/text_to_image_sdxl_quality_benchmark.py --image_path $OUTPUT_DIR
+python3 models/sdxl/text_to_image_sdxl_quality_benchmark.py --image_path $OUTPUT_DIR --deep_cache False
+python3 models/sdxl/text_to_image_sdxl_quality_benchmark.py --image_path $OUTPUT_DIR --compile False --deep_cache False
 
 python3 metrics/structural_similarity.py --folder1 path/to/folder1 --folder2 path/to/folder2
 

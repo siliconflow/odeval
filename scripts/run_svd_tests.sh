@@ -16,11 +16,11 @@ fi
 OUTPUT_DIR="/path/to/your/output"
 PROMPTS_DIR="/path/to/prompts"
 
-python3 svd/text_to_video_svd_quality_benchmark.py --image_path $OUTPUT_DIR --model $MODEL_PATH --deepcache
-python3 svd/text_to_video_svd_quality_benchmark.py --image_path $OUTPUT_DIR --deepcache
-python3 svd/text_to_video_svd_quality_benchmark.py --image_path $OUTPUT_DIR
-python3 svd/text_to_video_svd_quality_benchmark.py --image_path $OUTPUT_DIR --compiler none
-  
+python3 models/svd/text_to_video_svd_quality_benchmark.py --image_path $OUTPUT_DIR --model $MODEL_PATH --deepcache
+python3 models/svd/text_to_video_svd_quality_benchmark.py --image_path $OUTPUT_DIR --deepcache
+python3 models/svd/text_to_video_svd_quality_benchmark.py --image_path $OUTPUT_DIR
+python3 models/svd/text_to_video_svd_quality_benchmark.py --image_path $OUTPUT_DIR --compiler none
+
 python3 metrics/structural_similarity.py --folder1 path/to/folder1 --folder2 path/to/folder2
 
 evaluate_clip_score() {

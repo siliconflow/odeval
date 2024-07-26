@@ -4,25 +4,25 @@ from typing import Dict, List, Optional, Tuple, Union
 import clip
 import numpy as np
 import torch
-from torch.utils.data import DataLoader, Dataset
-from tqdm import tqdm
-
-from T2IBenchmark.model_wrapper import T2IModelWrapper, ModelWrapperDataloader
+from T2IBenchmark.datasets import get_coco_30k_captions, get_coco_fid_stats
 from T2IBenchmark.feature_extractors import BaseFeatureExtractor, InceptionV3FE
 from T2IBenchmark.loaders import (
     BaseImageLoader,
     CaptionImageDataset,
-    ImageDataset,
     get_images_from_folder,
+    ImageDataset,
     validate_image_paths,
 )
-from T2IBenchmark.datasets import get_coco_30k_captions, get_coco_fid_stats
 from T2IBenchmark.metrics import FIDStats, frechet_distance
+
+from T2IBenchmark.model_wrapper import ModelWrapperDataloader, T2IModelWrapper
 from T2IBenchmark.utils import dprint, set_all_seeds
+from torch.utils.data import DataLoader, Dataset
+from tqdm import tqdm
 
 
 def create_dataset_from_input(
-        obj: Union[str, List[str], BaseImageLoader, FIDStats]
+    obj: Union[str, List[str], BaseImageLoader, FIDStats]
 ) -> Union[BaseImageLoader, FIDStats]:
     if isinstance(obj, str):
         if obj.endswith(".npz"):
@@ -63,7 +63,7 @@ def get_features_for_dataset(
 def calculate_fid(
     input1: Union[str, List[str], BaseImageLoader, FIDStats],
     input2: Union[str, List[str], BaseImageLoader, FIDStats],
-    device: torch.device = 'cuda',
+    device: torch.device = "cuda",
     seed: Optional[int] = 42,
     batch_size: int = 128,
     dataloader_workers: int = 16,
@@ -134,11 +134,15 @@ def calculate_fid(
             all_features.append(features)
             stats.append(FIDStats.from_features(features))
         elif isinstance(input_data, T2IModelWrapper):
-            dataloader = ModelWrapperDataloader(input_data, batch_size, preprocess_fn=inception_fe.get_preprocess_fn())
-            features = get_features_for_dataset(dataloader, inception_fe, verbose=verbose)
+            dataloader = ModelWrapperDataloader(
+                input_data, batch_size, preprocess_fn=inception_fe.get_preprocess_fn()
+            )
+            features = get_features_for_dataset(
+                dataloader, inception_fe, verbose=verbose
+            )
             all_features.append(features)
             stats.append(FIDStats.from_features(features))
-            
+
     fid = frechet_distance(stats[0], stats[1])
     dprint(verbose, f"FID is {fid}")
     return fid, (
@@ -149,10 +153,10 @@ def calculate_fid(
 
 def calculate_coco_fid(
     ModelWrapper: T2IModelWrapper,
-    device: torch.device = 'cuda',
+    device: torch.device = "cuda",
     seed: Optional[int] = 42,
     batch_size: int = 1,
-    save_generations_dir: str = 'coco_generations/'
+    save_generations_dir: str = "coco_generations/",
 ) -> (int, Tuple[dict, dict]):
     os.makedirs(save_generations_dir, exist_ok=True)
     # get COCO-30k captions
@@ -162,15 +166,19 @@ def calculate_coco_fid(
     for d in id2caption.items():
         ids.append(d[0])
         captions.append(d[1])
-        
+
     # init model
-    model = ModelWrapper(device, save_dir=save_generations_dir, use_saved_images=True, seed=seed)
+    model = ModelWrapper(
+        device, save_dir=save_generations_dir, use_saved_images=True, seed=seed
+    )
     model.set_captions(captions, file_ids=ids)
-    
+
     # get coco FID stats
     coco_stats = get_coco_fid_stats()
-    
-    return calculate_fid(coco_stats, model, device=device, seed=seed, batch_size=batch_size)
+
+    return calculate_fid(
+        coco_stats, model, device=device, seed=seed, batch_size=batch_size
+    )
 
 
 def calculate_clip_score(
@@ -186,7 +194,11 @@ def calculate_clip_score(
         set_all_seeds(seed)
 
     model, preprocess = clip.load("ViT-B/32", device=device)
-    dataset = CaptionImageDataset(images_paths=image_paths, captions_mapping=captions_mapping, preprocess_fn=preprocess)
+    dataset = CaptionImageDataset(
+        images_paths=image_paths,
+        captions_mapping=captions_mapping,
+        preprocess_fn=preprocess,
+    )
 
     dataloader = DataLoader(
         dataset,
@@ -208,7 +220,9 @@ def calculate_clip_score(
             caption_embeddings = model.encode_text(torch.cat(captions))
 
         image_features = image_embeddings / image_embeddings.norm(dim=1, keepdim=True)
-        caption_features = caption_embeddings / caption_embeddings.norm(dim=1, keepdim=True)
+        caption_features = caption_embeddings / caption_embeddings.norm(
+            dim=1, keepdim=True
+        )
 
         score = (image_features * caption_features).sum(dim=1).mean().item()
         score_acc += score * images.size(0)

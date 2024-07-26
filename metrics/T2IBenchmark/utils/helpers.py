@@ -1,15 +1,16 @@
 import os
+
 import requests
 
 
 def dprint(verbose: bool, *args):
     if verbose:
         print(*args)
-        
-        
+
+
 def download_and_cache_file(url: str) -> str:
     home_dir = os.path.expanduser("~")
-    cache_dir = os.path.join(home_dir, ".cache", 'T2IBenchmark')
+    cache_dir = os.path.join(home_dir, ".cache", "T2IBenchmark")
     os.makedirs(cache_dir, exist_ok=True)
 
     filename = url.split("/")[-1]

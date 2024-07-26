@@ -1,4 +1,5 @@
 from typing import Callable
+
 import numpy as np
 import torch
 import torchvision
@@ -26,7 +27,7 @@ class InceptionV3FE(BaseFeatureExtractor):
         transforms = torchvision.transforms.ToTensor()
 
         def preprocess(image: Image.Image) -> np.ndarray:
-            image = image.convert('RGB')
+            image = image.convert("RGB")
             image_resized = resizer(np.array(image))
             x = transforms(image_resized)
             return 2 * x - 1

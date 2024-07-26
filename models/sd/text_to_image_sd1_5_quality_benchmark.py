@@ -1,7 +1,8 @@
+import argparse
 import os
 import time
+
 import hpsv2
-import argparse
 
 import oneflow as flow
 import torch
@@ -10,16 +11,16 @@ from onediff.schedulers import EulerDiscreteScheduler
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument(
-    "--base", type=str, default="runwayml/stable-diffusion-v1-5"
-)
+parser.add_argument("--base", type=str, default="runwayml/stable-diffusion-v1-5")
 parser.add_argument("--variant", type=str, default="fp16")
 parser.add_argument("--height", type=int, default=512)
 parser.add_argument("--width", type=int, default=512)
 parser.add_argument("--n_steps", type=int, default=30)
 parser.add_argument("--seed", type=int, default=1)
 parser.add_argument(
-    "--compile", type=(lambda x: str(x).lower() in ["true", "1", "yes"]), default=True,
+    "--compile",
+    type=(lambda x: str(x).lower() in ["true", "1", "yes"]),
+    default=True,
 )
 parser.add_argument(
     "--image_path",
@@ -45,6 +46,7 @@ args = parser.parse_args()
 OUTPUT_TYPE = "pil"
 
 from onediff.infer_compiler import oneflow_compile
+
 if args.deep_cache:
     from onediffx.deep_cache import StableDiffusionPipeline
 else:
@@ -126,7 +128,7 @@ for style, prompts in all_prompts.items():
         os.makedirs(prompt_path, exist_ok=True)
         image.save(os.path.join(directory_path, f"{idx:05d}.jpg"))
         text_file_path = os.path.join(prompt_path, f"{idx:05d}.txt")
-        with open(text_file_path, 'w') as text_file:
+        with open(text_file_path, "w") as text_file:
             text_file.write(prompt)
 
 torch.cuda.cudart().cudaProfilerStop()

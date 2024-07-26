@@ -1,13 +1,14 @@
+import argparse
 import os
 import time
-import argparse
-import hpsv2  # Import HPSv2 for benchmarking
 
-from onediff.infer_compiler import oneflow_compile
-from onediff.schedulers import EulerDiscreteScheduler
+import hpsv2  # Import HPSv2 for benchmarking
 
 import torch
 import torch.nn as nn
+
+from onediff.infer_compiler import oneflow_compile
+from onediff.schedulers import EulerDiscreteScheduler
 
 
 def parse_args():
@@ -17,7 +18,9 @@ def parse_args():
     parser.add_argument("--save_graph", action="store_true")
     parser.add_argument("--load_graph", action="store_true")
     parser.add_argument(
-        "--prompt", type=str, default="a photo of an astronaut riding a horse on mars",
+        "--prompt",
+        type=str,
+        default="a photo of an astronaut riding a horse on mars",
     )
     parser.add_argument("--height", type=int, default=512)
     parser.add_argument("--width", type=int, default=512)
@@ -137,7 +140,12 @@ pipe.to("cuda")
 
 for sub_module_name, sub_calibrate_info in calibrate_info.items():
     replace_sub_module_with_quantizable_module(
-        pipe.unet, sub_module_name, sub_calibrate_info, False, False, args.bits,
+        pipe.unet,
+        sub_module_name,
+        sub_calibrate_info,
+        False,
+        False,
+        args.bits,
     )
 
 if args.compile_text_encoder:
@@ -192,7 +200,7 @@ for style, prompts in all_prompts.items():
         image.save(os.path.join(directory_path, f"{idx:05d}.jpg"))
         text_file_path = os.path.join(prompt_path, f"{idx:05d}.txt")
         prompt_to_save = prompt[:MAX_PROMPT_LENGTH]
-        with open(text_file_path, 'w') as text_file:
+        with open(text_file_path, "w") as text_file:
             text_file.write(prompt_to_save)
 torch.cuda.cudart().cudaProfilerStop()
 

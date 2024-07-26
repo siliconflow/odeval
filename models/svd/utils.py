@@ -1,10 +1,11 @@
 import os
-import torch
+
 import oneflow as flow
+import torch
+from diffusers import StableDiffusionXLPipeline
 
 from onediff.infer_compiler import oneflow_compile
 from onediff.schedulers import EulerDiscreteScheduler
-from diffusers import StableDiffusionXLPipeline
 
 
 def generate_image(

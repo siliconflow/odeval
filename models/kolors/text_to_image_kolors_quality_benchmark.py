@@ -1,18 +1,20 @@
 import argparse
 import json
-import time
 import os
+import time
+
+import hpsv2
 import pandas as pd
+import torch
 
 from diffusers import DPMSolverMultistepScheduler, KolorsPipeline
-from onediffx import compile_pipe, quantize_pipe
 from onediff.infer_compiler import oneflow_compile
-import torch
+from onediffx import compile_pipe, quantize_pipe
 
 
 def parse_args():
     parser = argparse.ArgumentParser(
-        description="Use onediif to accelerate image generation with Kolors"
+        description="Use onediff to accelerate image generation with Kolors"
     )
     parser.add_argument(
         "--model",
@@ -56,13 +58,33 @@ def parse_args():
     parser.add_argument(
         "--seed", type=int, default=66, help="Seed for random number generation."
     )
-    parser.add_argument("--csv-file", type=str, required=True, help="CSV file containing prompts.")
-    parser.add_argument("--output-dir", type=str, default="./output_images3", help="Directory to save the generated images.")
     parser.add_argument(
         "--warmup-iterations",
         type=int,
         default=1,
         help="Number of warm-up iterations before actual inference.",
+    )
+    parser.add_argument(
+        "--prompt_path",
+        type=str,
+        default="/path/to/prompts",
+        help="The path to save generated prompts",
+    )
+    parser.add_argument(
+        "--output-dir",
+        type=str,
+        default="/path/to/your/output",
+        help="Directory to save the generated images.",
+    )
+    parser.add_argument(
+        "--csv-file", type=str, help="CSV file containing prompts for COCO dataset."
+    )
+    parser.add_argument(
+        "--dataset",
+        type=str,
+        choices=["hps", "coco"],
+        required=True,
+        help="Dataset to use for generating images. Options: 'hps', 'coco'.",
     )
     return parser.parse_args()
 
@@ -93,13 +115,13 @@ class KolorsGenerator:
                 self.pipe = self.quantize_pipe(self.pipe, quantize_config)
         elif compiler == "oneflow":
             print("oneflow backend compile...")
-            self.pipe.unet = self.oneflow_compile(self.pipe.unet)
+            # self.pipe.unet = self.oneflow_compile(self.pipe.unet)
+            self.pipe = compile_pipe(self.pipe, ignores=["text_encoder", "vae"])
 
     def warmup(self, gen_args, warmup_iterations):
         warmup_args = gen_args.copy()
 
         warmup_args["generator"] = torch.Generator(device=device).manual_seed(0)
-        warmup_args["prompt"] = "warmup"
 
         print("Starting warmup...")
         start_time = time.time()
@@ -109,15 +131,13 @@ class KolorsGenerator:
         print("Warmup complete.")
         print(f"Warmup time: {end_time - start_time:.2f} seconds")
 
-    def generate(self, gen_args, output_path):
+    def generate(self, gen_args):
         gen_args["generator"] = torch.Generator(device=device).manual_seed(args.seed)
 
         # Run the model
         start_time = time.time()
         images = self.pipe(**gen_args).images
         end_time = time.time()
-
-        images[0].save(output_path)
 
         return images[0], end_time - start_time
 
@@ -151,10 +171,8 @@ def main():
         compiler=args.compiler,
     )
 
-    df = pd.read_csv(args.csv_file)
-    prompts = df.iloc[:, 1].tolist()
-
     gen_args = {
+        "prompt": args.prompt,
         "num_inference_steps": args.num_inference_steps,
         "height": args.height,
         "width": args.width,
@@ -162,32 +180,47 @@ def main():
     }
 
     kolors.warmup(gen_args, args.warmup_iterations)
-    # torch.cuda.empty_cache()
 
-    for idx, prompt in enumerate(prompts):
-        gen_args["prompt"] = prompt
-        output_path = os.path.join(args.output_dir, f"image_{idx+1}.png")
-        image, inference_time = kolors.generate(gen_args, output_path)
-        # torch.cuda.empty_cache()
-        print(f"Generated image saved to {output_path} in {inference_time:.2f} seconds.")
-        cuda_mem_after_used = torch.cuda.max_memory_allocated() / (1024 ** 3)
-        print(f"Max used CUDA memory: {cuda_mem_after_used:.3f} GiB")
+    if args.dataset == "hps":
+        all_prompts = hpsv2.benchmark_prompts("all")
 
+        for style, prompts in all_prompts.items():
+            for idx, prompt in enumerate(prompts):
+                gen_args["prompt"] = prompt
+
+                directory_path = os.path.join(args.output_dir, style)
+                prompt_path = os.path.join(args.prompt_path, style)
+                os.makedirs(directory_path, exist_ok=True)
+                os.makedirs(prompt_path, exist_ok=True)
+
+                image, inference_time = kolors.generate(gen_args)
+                image.save(os.path.join(directory_path, f"{idx:05d}.jpg"))
+                print(
+                    f"Generated image saved to {directory_path} in {inference_time:.2f} seconds."
+                )
+                cuda_mem_after_used = torch.cuda.max_memory_allocated() / (1024**3)
+                print(f"Max used CUDA memory: {cuda_mem_after_used:.3f} GiB")
+    elif args.dataset == "coco":
+        df = pd.read_csv(args.csv_file)
+        prompts = df.iloc[:, 1].tolist()
+
+        for idx, prompt in enumerate(prompts):
+            gen_args["prompt"] = prompt
+            output_path = os.path.join(args.output_dir, f"image_{idx+1}.png")
+            image, inference_time = kolors.generate(gen_args)
+            image.save(output_path)
+            print(
+                f"Generated image saved to {output_path} in {inference_time:.2f} seconds."
+            )
+            cuda_mem_after_used = torch.cuda.max_memory_allocated() / (1024**3)
+            print(f"Max used CUDA memory: {cuda_mem_after_used:.3f} GiB")
 
 
 if __name__ == "__main__":
     main()
 
+# Example usage for HPS dataset:
+# python3 models/kolors/hps.py --compiler nexfort --compiler-config '{"mode": "max-optimize:max-autotune:low-precision", "memory_format": "channels_last"}' --dataset hps
 
-
-# python3 models/kolors/test.py --compiler oneflow --csv-file /home/lixiang/odeval/MS-COCO_val2014_30k_captions.csv 
-
-
-# python3 models/kolors/test.py \
-# --compiler nexfort \
-# --compiler-config '{"mode": "max-optimize:max-autotune:low-precision", "memory_format": "channels_last"}' \
-# --csv-file /home/lixiang/odeval/MS-COCO_val2014_30k_captions.csv 
-
-
-# python3 models/kolors/test.py --csv-file /home/lixiang/odeval/MS-COCO_val2014_30k_captions.csv 
-
+# Example usage for COCO dataset:
+# python3 models/kolors/hps.py --compiler nexfort --compiler-config '{"mode": "max-optimize:max-autotune:low-precision", "memory_format": "channels_last"}' --csv-file /path/to/coco.csv --dataset coco

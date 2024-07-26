@@ -30,20 +30,21 @@ ATTENTION_FP16_SCORE_ACCUM_MAX_M = 0
 CACHE_INTERVAL = 3
 CACHE_BRANCH = 0
 
-import os
+import argparse
 import importlib
 import inspect
-import argparse
-import time
 import json
+import os
 import random
-import hpsv2 
-from PIL import Image, ImageDraw
+import time
+
+import hpsv2
 
 import oneflow as flow
 import torch
+from diffusers.utils import export_to_video, load_image
 from onediffx import compile_pipe, compiler_config
-from diffusers.utils import load_image, export_to_video
+from PIL import Image, ImageDraw
 
 from utils import generate_image
 
@@ -84,10 +85,14 @@ def parse_args():
         default=ATTENTION_FP16_SCORE_ACCUM_MAX_M,
     )
     parser.add_argument(
-        "--alter-height", type=int, default=ALTER_HEIGHT,
+        "--alter-height",
+        type=int,
+        default=ALTER_HEIGHT,
     )
     parser.add_argument(
-        "--alter-width", type=int, default=ALTER_WIDTH,
+        "--alter-width",
+        type=int,
+        default=ALTER_WIDTH,
     )
     parser.add_argument(
         "--image_path",
@@ -116,7 +121,8 @@ def load_pipe(
         from diffusers import ControlNetModel
 
         controlnet = ControlNetModel.from_pretrained(
-            controlnet, torch_dtype=torch.float16,
+            controlnet,
+            torch_dtype=torch.float16,
         )
         extra_kwargs["controlnet"] = controlnet
     if os.path.exists(os.path.join(model_name, "calibrate_info.txt")):
@@ -175,6 +181,7 @@ def save_last_frame_as_image(output_frames, image_path, style, idx):
     os.makedirs(os.path.dirname(image_file_path), exist_ok=True)
     last_frame.save(image_file_path)
 
+
 def evaluate_last_frame(image_path):
     """
     Evaluate the last frame saved as an image using the hpsv2.
@@ -214,7 +221,9 @@ def main():
         compiler_config.attention_allow_half_precision_score_accumulation_max_m = (
             args.attention_fp16_score_accum_max_m
         )
-        pipe = compile_pipe(pipe,)
+        pipe = compile_pipe(
+            pipe,
+        )
     elif args.compiler == "compile":
         pipe.unet = torch.compile(pipe.unet)
         if hasattr(pipe, "controlnet"):
@@ -239,7 +248,12 @@ def main():
                 control_image = Image.new("RGB", (width, height))
                 draw = ImageDraw.Draw(control_image)
                 draw.ellipse(
-                    (width // 4, height // 4, width // 4 * 3, height // 4 * 3,),
+                    (
+                        width // 4,
+                        height // 4,
+                        width // 4 * 3,
+                        height // 4 * 3,
+                    ),
                     fill=(255, 255, 255),
                 )
                 del draw
@@ -287,7 +301,7 @@ def main():
         elif "callback" in inspect.signature(pipe).parameters:
             kwarg_inputs["callback"] = iter_profiler.callback_on_step_end
         begin = time.time()
-        all_prompts = hpsv2.benchmark_prompts('all')
+        all_prompts = hpsv2.benchmark_prompts("all")
         for style, prompts in all_prompts.items():
             for idx, prompt in enumerate(prompts):
                 if idx >= 100:

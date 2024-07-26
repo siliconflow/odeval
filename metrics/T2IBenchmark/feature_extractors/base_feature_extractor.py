@@ -1,9 +1,9 @@
-from typing import Callable
 from abc import ABC, abstractmethod
+from typing import Callable
 
 import numpy as np
-from PIL import Image
 import torch
+from PIL import Image
 
 
 class BaseFeatureExtractor(ABC):

@@ -1,13 +1,14 @@
+import argparse
 import os
 import time
-import argparse
-import hpsv2  # Import HPSv2 for benchmarking
 
-from onediff.infer_compiler import oneflow_compile
-from onediff.schedulers import EulerDiscreteScheduler
+import hpsv2  # Import HPSv2 for benchmarking
 
 import torch
 import torch.nn as nn
+
+from onediff.infer_compiler import oneflow_compile
+from onediff.schedulers import EulerDiscreteScheduler
 
 
 def parse_args():
@@ -141,7 +142,12 @@ pipe.to("cuda")
 
 for sub_module_name, sub_calibrate_info in calibrate_info.items():
     replace_sub_module_with_quantizable_module(
-        pipe.unet, sub_module_name, sub_calibrate_info, False, False, args.bits,
+        pipe.unet,
+        sub_module_name,
+        sub_calibrate_info,
+        False,
+        False,
+        args.bits,
     )
     quantized_layers_count += 1
 
@@ -149,21 +155,35 @@ print(f"Total quantized layers: {quantized_layers_count}")
 
 if args.compile_text_encoder:
     if pipe.text_encoder is not None:
-        pipe.text_encoder = oneflow_compile(pipe.text_encoder,)
+        pipe.text_encoder = oneflow_compile(
+            pipe.text_encoder,
+        )
     if pipe.text_encoder_2 is not None:
-        pipe.text_encoder_2 = oneflow_compile(pipe.text_encoder_2,)
+        pipe.text_encoder_2 = oneflow_compile(
+            pipe.text_encoder_2,
+        )
 
 if args.compile:
     if pipe.text_encoder is not None:
-        pipe.text_encoder = oneflow_compile(pipe.text_encoder,)
+        pipe.text_encoder = oneflow_compile(
+            pipe.text_encoder,
+        )
     if pipe.text_encoder_2 is not None:
-        pipe.text_encoder_2 = oneflow_compile(pipe.text_encoder_2,)
-    pipe.unet = oneflow_compile(pipe.unet,)
+        pipe.text_encoder_2 = oneflow_compile(
+            pipe.text_encoder_2,
+        )
+    pipe.unet = oneflow_compile(
+        pipe.unet,
+    )
     if args.deep_cache:
-        pipe.fast_unet = oneflow_compile(pipe.fast_unet,)
+        pipe.fast_unet = oneflow_compile(
+            pipe.fast_unet,
+        )
         if pipe.needs_upcasting:
             pipe.upcast_vae()
-    pipe.vae.decoder = oneflow_compile(pipe.vae.decoder,)
+    pipe.vae.decoder = oneflow_compile(
+        pipe.vae.decoder,
+    )
 
 if args.load_graph:
     print("Loading graphs to avoid compilation...")
@@ -204,7 +224,7 @@ for style, prompts in all_prompts.items():
         os.makedirs(prompt_path, exist_ok=True)
         image.save(os.path.join(directory_path, f"{idx:05d}.jpg"))
         text_file_path = os.path.join(prompt_path, f"{idx:05d}.txt")
-        with open(text_file_path, 'w') as text_file:
+        with open(text_file_path, "w") as text_file:
             text_file.write(prompt)
 torch.cuda.cudart().cudaProfilerStop()
 

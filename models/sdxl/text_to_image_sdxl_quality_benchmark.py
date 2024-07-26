@@ -1,7 +1,8 @@
+import argparse
 import os
 import time
+
 import hpsv2
-import argparse
 
 import oneflow as flow
 import torch
@@ -19,7 +20,9 @@ parser.add_argument("--width", type=int, default=1024)
 parser.add_argument("--n_steps", type=int, default=30)
 parser.add_argument("--seed", type=int, default=1)
 parser.add_argument(
-    "--compile", type=(lambda x: str(x).lower() in ["true", "1", "yes"]), default=True,
+    "--compile",
+    type=(lambda x: str(x).lower() in ["true", "1", "yes"]),
+    default=True,
 )
 parser.add_argument(
     "--image_path",
@@ -48,8 +51,8 @@ if args.deep_cache:
     from onediffx import compile_pipe
     from onediffx.deep_cache import StableDiffusionXLPipeline
 else:
-    from onediff.infer_compiler import oneflow_compile
     from diffusers import StableDiffusionXLPipeline
+    from onediff.infer_compiler import oneflow_compile
 
 # SDXL base: StableDiffusionXLPipeline
 scheduler = EulerDiscreteScheduler.from_pretrained(args.base, subfolder="scheduler")
@@ -123,14 +126,14 @@ for style, prompts in all_prompts.items():
                 num_inference_steps=args.n_steps,
                 output_type=OUTPUT_TYPE,
             ).images[0]
-        
+
         directory_path = os.path.join(args.image_path, style)
         prompt_path = os.path.join(args.prompt_path, style)
         os.makedirs(directory_path, exist_ok=True)
         os.makedirs(prompt_path, exist_ok=True)
         image.save(os.path.join(directory_path, f"{idx:05d}.jpg"))
         text_file_path = os.path.join(prompt_path, f"{idx:05d}.txt")
-        with open(text_file_path, 'w') as text_file:
+        with open(text_file_path, "w") as text_file:
             text_file.write(prompt)
 
 torch.cuda.cudart().cudaProfilerStop()
