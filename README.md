@@ -52,17 +52,30 @@ Evaluating the use of all generative models is divided into two steps, taking th
 
       ```
       # Original Pytorch generates reference images.
-      python3 models/kolors/text_to_image_kolors_quality_benchmark.py --dataset coco --csv-file resources/MS-COCO_val2014_30k_captions.csv --output-dir /path/to/your/kolors_torch_coco
+      python3 models/kolors/text_to_image_kolors_quality_benchmark.py \
+      --dataset coco \
+      --csv-file resources/MS-COCO_val2014_30k_captions.csv \
+      --output-dir /path/to/your/kolors_torch_coco
+
       ```
 
       ```
       # Accelerate using onediff's oneflow backend.
-      python3 models/kolors/text_to_image_kolors_quality_benchmark.py --compiler oneflow --dataset coco --csv-file resources/MS-COCO_val2014_30k_captions.csv --output-dir /path/to/your/kolors_oneflow_coco
+      python3 models/kolors/text_to_image_kolors_quality_benchmark.py \
+      --compiler oneflow \
+      --dataset coco \
+      --csv-file resources/MS-COCO_val2014_30k_captions.csv \
+      --output-dir /path/to/your/kolors_oneflow_coco
       ```
 
       ```
       # Accelerate using onediff's nexfort backend.
-      python3 models/kolors/text_to_image_kolors_quality_benchmark.py --compiler nexfort --compiler-config '{"mode": "max-optimize:max-autotune:low-precision", "memory_format": "channels_last"}' --dataset coco --csv-file resources/MS-COCO_val2014_30k_captions.csv --output-dir /path/to/your/kolors_nexfort_coco
+      python3 models/kolors/text_to_image_kolors_quality_benchmark.py \
+      --compiler nexfort \
+      --compiler-config '{"mode": "max-optimize:max-autotune:low-precision", "memory_format": "channels_last"}' \
+      --dataset coco \
+      --csv-file resources/MS-COCO_val2014_30k_captions.csv \
+      --output-dir /path/to/your/kolors_nexfort_coco
       ```
 
    - On Human Preference Dataset v2 (HPD v2):
@@ -70,7 +83,9 @@ Evaluating the use of all generative models is divided into two steps, taking th
       Simply modify the `--dataset` parameters, do not read prompts from the `--csv-file` parameter, and customize the `--output-dir` for generating images. For example:
 
       ```
-      python3 models/kolors/text_to_image_kolors_quality_benchmark.py --dataset hps --output-dir /path/to/your/kolors_torch_hps
+      python3 models/kolors/text_to_image_kolors_quality_benchmark.py \
+      --dataset hps \
+      --output-dir /path/to/your/kolors_torch_hps
       ```
 
 ### 2. Test using multiple indicators with scripts.
