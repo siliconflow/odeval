@@ -75,10 +75,11 @@ Evaluating the use of all generative models is divided into two steps, taking th
 
 ### 2. Test using multiple indicators with scripts.
 
-      ```
-      bash scripts/run_kolors_tests.sh coco
-      bash scripts/run_kolors_tests.sh hps
-      ```
+
+   ```
+   bash scripts/run_kolors_tests.sh coco
+   bash scripts/run_kolors_tests.sh hps
+   ```
 
 A quality report can refer to: [models/kolors/README.md](models/kolors/README.md)
 
