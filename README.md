@@ -11,12 +11,15 @@
 3. [Quick Start](#quick-start) ⚡
    - [Generate Benchmark Images](#generate-benchmark-images)
    - [Testing Using Multiple Indicators](#testing-using-multiple-indicators)
-4. [References](#references) 📚
-5. [Citing](#citing) 📖
+4. [Qualitative Evaluation](#qualitative-evaluation) 🎨
+5. [References](#references) 📚
+6. [Citing](#citing) 📖
 
+## Introduction
 
 This repository is used for evaluating the quality of generation after compilation acceleration using [OneDiff](https://github.com/siliconflow/onediff).
 
+It can also serve as a benchmark for evaluating the performance of different text-to-image models.
 
 
 ## Installation
@@ -28,7 +31,6 @@ This repository is used for evaluating the quality of generation after compilati
 
 2. **Prepare Benchmark environment.**
 
-
     ```
     pip3 install -r requirements.txt
     pip3 install -e .
@@ -37,7 +39,7 @@ This repository is used for evaluating the quality of generation after compilati
 
 ## Quick Start
 
-Evaluating the use of all generative models is divided into two steps, taking the kolors model as an example:
+Evaluating the use of all generative models is divided into two steps, taking the [kolors](https://huggingface.co/Kwai-Kolors/Kolors) model as an example:
 
 ### 1. Generate benchmark images.
 
@@ -51,7 +53,7 @@ Evaluating the use of all generative models is divided into two steps, taking th
       ```
 
       ```
-      # Original Pytorch generates reference images.
+      # Original pytorch generates reference images.
       python3 models/kolors/text_to_image_kolors_quality_benchmark.py \
       --dataset coco \
       --csv-file resources/MS-COCO_val2014_30k_captions.csv \
@@ -96,6 +98,14 @@ Evaluating the use of all generative models is divided into two steps, taking th
    ```
 
 A quality report can refer to: [models/kolors/README.md](models/kolors/README.md)
+
+## Qualitative evaluation
+
+We collected several typical prompts to visualize the generated images for qualitative evaluation. These prompts reflect the model's semantic understanding, long text, detail, spatial relationships, diversity, clarity, and text embedding capabilities.
+
+- English: [resources/prompts.txt](resources/prompts.txt)
+
+- Chinese: [resources/prompts_cn.txt](resources/prompts_cn.txt)
 
 
 ## References
