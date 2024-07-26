@@ -56,7 +56,6 @@ Evaluating the use of all generative models is divided into two steps, taking th
       --dataset coco \
       --csv-file resources/MS-COCO_val2014_30k_captions.csv \
       --output-dir /path/to/your/kolors_torch_coco
-
       ```
 
       ```
