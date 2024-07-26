@@ -218,9 +218,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-# Example usage for HPS dataset:
-# python3 models/kolors/hps.py --compiler nexfort --compiler-config '{"mode": "max-optimize:max-autotune:low-precision", "memory_format": "channels_last"}' --dataset hps
-
-# Example usage for COCO dataset:
-# python3 models/kolors/hps.py --compiler nexfort --compiler-config '{"mode": "max-optimize:max-autotune:low-precision", "memory_format": "channels_last"}' --csv-file /path/to/coco.csv --dataset coco
