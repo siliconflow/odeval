@@ -1,4 +1,4 @@
-# odeval (WIP...)
+# nexeval
 
 <p align="center">
 <img src="imgs/onediff_logo.png" height="100">
